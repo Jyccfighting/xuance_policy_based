@@ -4,4 +4,4 @@ runner = xp.get_runner('PG',
                        'CartPole-v1',  # Choices: acrobot, cartpole, mountaincar, pendulum, .
                        "CartPole-v1.yaml",  # The path of my_config.yaml file should be correct.
                        )
-runner.run(mode="train") 
+runner.run(mode='benchmark') 

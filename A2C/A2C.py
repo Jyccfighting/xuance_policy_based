@@ -4,4 +4,4 @@ runner = xp.get_runner('A2C',
                        'MountainCar-v0',  
                        "MountainCar-v0.yaml",  # The path of my_config.yaml file should be correct.
                        )
-runner.run(mode="train") 
+runner.run(mode='benchmark') 
