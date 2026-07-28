@@ -1,3 +1,8 @@
+dl_toolbox: "torch"
+project_name: "PG_Acrobot-v1"
+logger: "wandb"
+wandb_user_name: "2797824480"
+
 agent: "PG"
 env_name: "Classic Control"
 env_id: "Acrobot-v1"

@@ -1,3 +1,8 @@
+dl_toolbox: "torch"
+project_name: "A2C_Acrobot-v1"
+logger: "wandb"
+wandb_user_name: "2797824480"
+
 agent: "A2C"
 env_name: "Classic Control"
 env_id: "Acrobot-v1"

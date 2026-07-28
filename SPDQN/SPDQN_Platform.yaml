@@ -1,3 +1,8 @@
+dl_toolbox: "torch"
+project_name: "SPDQN_Platform"
+logger: "wandb"
+wandb_user_name: "2797824480"
+
 agent: "SPDQN"
 env_name: "Platform"
 env_id: "Platform-v0"
