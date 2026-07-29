@@ -1,0 +1,31 @@
+{
+  "algo": "A2C",
+  "env": "Classic Control",
+  "env_id": "Pendulum-v1",
+  "dl_toolbox": "torch",
+  "device": "cpu",
+  "seed": 1,
+  "xuance_version": "v1.4.4",
+  "benchmark": {
+    "running_steps": 500000,
+    "eval_interval": 50000,
+    "test_episodes": 10
+  },
+  "system_info": {
+    "Platform": "Windows-10-10.0.26200-SP0",
+    "CUDA_Available": false,
+    "Python": "3.10.20",
+    "XuanCe": "v1.4.4",
+    "PyTorch": "2.13.0+cpu",
+    "PID": 217292,
+    "Rank": 0,
+    "device": "cpu",
+    "cpu_arch": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel"
+  },
+  "timestamps": {
+    "start_time": "2026-07-29T14:45:16.618241+08:00",
+    "best_model_time": "2026-07-29T14:45:16.618241+08:00",
+    "end_time": "2026-07-29T14:48:05.178342+08:00",
+    "elapsed_seconds": 168.56
+  }
+}
