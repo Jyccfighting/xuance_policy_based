@@ -16,7 +16,7 @@ runner: "DRL"
 representation_hidden_size: [128,]
 actor_hidden_size: [128,]
 critic_hidden_size: [128,]
-activation: "relu"  # The activation function of each hidden layer.
+activation: "leaky_relu"  # The activation function of each hidden layer.
 
 seed: 1
 parallels: 10
@@ -33,16 +33,16 @@ training_frequency: 2
 running_steps: 500000
 start_training: 2000
 
-use_grad_clip: False  # gradient normalization
+use_grad_clip: True  # gradient normalization
 clip_type: 1  # Gradient clip for Mindspore: 0: ms.ops.clip_by_value; 1: ms.nn.ClipByNorm()
 grad_clip_norm: 0.5
 use_actions_mask: False
-use_obsnorm: False  # Whether to use observation normalization trick.
-use_rewnorm: False  # Whether to use reward normalization trick.
+use_obsnorm: True  # Whether to use observation normalization trick.
+use_rewnorm: True  # Whether to use reward normalization trick.
 obsnorm_range: 5
 rewnorm_range: 5
 
 eval_interval: 50000
-test_episode: 5
+test_episode: 10
 log_dir: "logs/sac/"
 model_dir: "models/sac/"
