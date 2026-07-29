@@ -8,15 +8,16 @@ env_name: "Classic Control"
 env_id: "Pendulum-v1"
 env_seed: 1
 vectorize: "DummyVecEnv"
-representation: "Basic_Identical"
+representation: "Basic_MLP"
+# Basic_Identical
 policy: "TD3_Policy"
 learner: "TD3_Learner"
 runner: "DRL"
 
-representation_hidden_size: [64]
+representation_hidden_size: [256, ]
 actor_hidden_size: [256, ]
 critic_hidden_size: [256, ]
-activation: "leaky_relu"
+activation: "relu"
 activation_action: 'tanh'
 
 seed: 1
@@ -45,6 +46,6 @@ rewnorm_range: 5
 
 test_steps: 10000
 eval_interval: 50000
-test_episode: 1
+test_episode: 10
 log_dir: "./logs/td3/"
 model_dir: "./models/td3/"
