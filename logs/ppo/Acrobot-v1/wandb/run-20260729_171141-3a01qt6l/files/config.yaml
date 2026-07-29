@@ -1,0 +1,175 @@
+_wandb:
+    value:
+        cli_version: 0.28.1
+        e:
+            uuc0ol6bi37c3yp8ysiuzty2qq05xofx:
+                codePath: PPO\PPO.py
+                codePathLocal: PPO\PPO.py
+                cpu_count: 14
+                cpu_count_logical: 20
+                cudaVersion: "13.2"
+                disk:
+                    /:
+                        total: "2000381014016"
+                        used: "1339274633216"
+                email: 2797824480@qq.com
+                executable: D:\Program Files\anaconda3\envs\xuance_torch\python.exe
+                git:
+                    commit: bb376aff20eec1b196fc2f9395c41963015b8a1d
+                    remote: https://github.com/Jyccfighting/xuance_policy_based.git
+                gpu: NVIDIA GeForce RTX 3060 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 3840
+                      memoryTotal: "6442450944"
+                      name: NVIDIA GeForce RTX 3060 Laptop GPU
+                      uuid: GPU-279c9533-d31e-f0a7-580f-e9dabad4cb0d
+                host: Jycc
+                memory:
+                    total: "16851132416"
+                os: Windows-10-10.0.26200-SP0
+                program: d:\document\coding\policy\PPO\PPO.py
+                python: CPython 3.10.20
+                root: D:\document\coding\policy\logs\ppo\Acrobot-v1
+                startedAt: "2026-07-29T09:11:41.640360Z"
+                writerId: uuc0ol6bi37c3yp8ysiuzty2qq05xofx
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 41
+            "2":
+                - 1
+                - 41
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.10.20
+            "5": 0.28.1
+            "8":
+                - 3
+            "10":
+                - 20
+            "12": 0.28.1
+            "13": windows-amd64
+action_space:
+    value: Discrete(3)
+activation:
+    value: relu
+activation_action:
+    value: tanh
+actor_hidden_size:
+    value:
+        - 128
+agent:
+    value: PPO
+agent_name:
+    value: ppo
+clip_range:
+    value: 0.2
+clip_type:
+    value: 1
+critic_hidden_size:
+    value:
+        - 128
+device:
+    value: cpu
+distributed_training:
+    value: false
+dl_toolbox:
+    value: torch
+ent_coef:
+    value: 0.01
+env_id:
+    value: Acrobot-v1
+env_name:
+    value: Classic Control
+env_seed:
+    value: 10
+episode_length:
+    value: 500
+eval_interval:
+    value: 50000
+fps:
+    value: 50
+gae_lambda:
+    value: 0.95
+gamma:
+    value: 0.98
+grad_clip_norm:
+    value: 0.5
+horizon_size:
+    value: 256
+kl_coef:
+    value: 1
+learner:
+    value: PPO_Learner
+learning_rate:
+    value: 0.0004
+log_dir:
+    value: logs/ppo/Acrobot-v1
+logger:
+    value: wandb
+master_port:
+    value: "12355"
+model_dir:
+    value: models/ppo/Acrobot-v1
+n_epochs:
+    value: 8
+n_minibatch:
+    value: 8
+observation_space:
+    value: Box([ -1.        -1.        -1.        -1.       -12.566371 -28.274334], [ 1.        1.        1.        1.       12.566371 28.274334], (6,), float32)
+obsnorm_range:
+    value: 5
+parallels:
+    value: 10
+policy:
+    value: Categorical_AC
+project_name:
+    value: PPO_Acrobot-v1
+render:
+    value: true
+render_mode:
+    value: rgb_array
+representation:
+    value: Basic_MLP
+representation_hidden_size:
+    value:
+        - 128
+result_dir:
+    value: results/ppo\Acrobot-v1
+rewnorm_range:
+    value: 5
+runner:
+    value: DRL
+running_steps:
+    value: 500000
+seed:
+    value: 1
+target_kl:
+    value: 0.25
+test_episode:
+    value: 10
+use_actions_mask:
+    value: false
+use_advnorm:
+    value: true
+use_gae:
+    value: true
+use_grad_clip:
+    value: true
+use_obsnorm:
+    value: true
+use_rewnorm:
+    value: true
+vectorize:
+    value: DummyVecEnv
+vf_coef:
+    value: 0.25
+wandb_user_name:
+    value: "2797824480"
