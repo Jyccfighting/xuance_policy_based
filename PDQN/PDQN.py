@@ -1,4 +1,8 @@
 import xuance
+from pdqn_agent import PDQN  # 修改后的PDQN代码文件
+from xuance.torch.agents import REGISTRY_Agents
+
+REGISTRY_Agents['PDQN'] = PDQN 
 runner = xuance.get_runner('PDQN',
                        'Platform',  # Choices: claasi_control, box2d, .
                        'Platform-v0',  # Choices: Platform-v0, Goal-v0, etc.
