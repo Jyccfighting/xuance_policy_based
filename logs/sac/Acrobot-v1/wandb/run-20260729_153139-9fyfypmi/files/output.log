@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "d:\document\coding\policy\SAC\SAC.py", line 2, in <module>
+    runner = xp.get_runner('sac',
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\xuance\engine\__init__.py", line 130, in get_runner
+    runner = REGISTRY_Runner[args.runner](args)
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\xuance\engine\run_drl.py", line 94, in __init__
+    self.agent = REGISTRY_Agents[self.config.agent](self.config, self.envs) if agent is None else agent
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\xuance\torch\agents\policy_gradient\sac_agent.py", line 34, in __init__
+    self.learner = self._build_learner(self.config, self.policy, self.callback)
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\xuance\torch\agents\base\agent.py", line 335, in _build_learner
+    return REGISTRY_Learners[self.config.learner](*args)
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\xuance\torch\learners\policy_gradient\sacdis_learner.py", line 36, in __init__
+    self.target_entropy = -float(policy.action_space.n)
+  File "D:\Program Files\anaconda3\envs\xuance_torch\lib\site-packages\torch\nn\modules\module.py", line 1967, in __getattr__
+    raise AttributeError(
+AttributeError: 'SACDISPolicy' object has no attribute 'action_space'

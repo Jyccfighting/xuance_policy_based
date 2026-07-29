@@ -1,0 +1,152 @@
+_wandb:
+    value:
+        cli_version: 0.28.1
+        e:
+            49l3kvawtdw1exfzrfanthngaet8m6xn:
+                codePath: SAC\SAC.py
+                codePathLocal: SAC\SAC.py
+                email: 2797824480@qq.com
+                executable: D:\Program Files\anaconda3\envs\xuance_torch\python.exe
+                git:
+                    commit: 485a9a5142540f88bb4fc51570b4242111f314db
+                    remote: https://github.com/Jyccfighting/xuance_policy_based.git
+                host: Jycc
+                os: Windows-10-10.0.26200-SP0
+                program: d:\document\coding\policy\SAC\SAC.py
+                python: CPython 3.10.20
+                root: D:\document\coding\policy\logs\sac\Acrobot-v1
+                startedAt: "2026-07-29T07:51:29.346278Z"
+                writerId: 49l3kvawtdw1exfzrfanthngaet8m6xn
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 41
+            "2":
+                - 1
+                - 41
+            "3":
+                - 13
+                - 16
+            "4": 3.10.20
+            "5": 0.28.1
+            "8":
+                - 3
+            "10":
+                - 20
+            "12": 0.28.1
+            "13": windows-amd64
+action_space:
+    value: Discrete(3)
+activation:
+    value: relu
+activation_action:
+    value: tanh
+actor_hidden_size:
+    value:
+        - 128
+agent:
+    value: SAC
+agent_name:
+    value: sac
+alpha:
+    value: 0.2
+batch_size:
+    value: 256
+buffer_size:
+    value: 200000
+clip_type:
+    value: 1
+critic_hidden_size:
+    value:
+        - 128
+device:
+    value: cpu
+distributed_training:
+    value: false
+dl_toolbox:
+    value: torch
+env_id:
+    value: Acrobot-v1
+env_name:
+    value: Classic Control
+env_seed:
+    value: 10
+episode_length:
+    value: 500
+eval_interval:
+    value: 50000
+fps:
+    value: 50
+gamma:
+    value: 0.99
+grad_clip_norm:
+    value: 0.5
+learner:
+    value: SACDIS_Learner
+learning_rate:
+    value: 0.0004
+learning_rate_actor:
+    value: 0.0004
+learning_rate_critic:
+    value: 0.0004
+log_dir:
+    value: logs/sac/Acrobot-v1
+logger:
+    value: wandb
+master_port:
+    value: "12355"
+model_dir:
+    value: models/sac/Acrobot-v1
+observation_space:
+    value: Box([ -1.        -1.        -1.        -1.       -12.566371 -28.274334], [ 1.        1.        1.        1.       12.566371 28.274334], (6,), float32)
+obsnorm_range:
+    value: 5
+parallels:
+    value: 10
+policy:
+    value: Categorical_SAC
+project_name:
+    value: SAC_Acrobot-v1
+render:
+    value: true
+render_mode:
+    value: rgb_array
+representation:
+    value: Basic_MLP
+representation_hidden_size:
+    value:
+        - 128
+result_dir:
+    value: results/sac\Acrobot-v1
+rewnorm_range:
+    value: 5
+runner:
+    value: DRL
+running_steps:
+    value: 500000
+seed:
+    value: 1
+start_training:
+    value: 2000
+tau:
+    value: 0.005
+test_episode:
+    value: 10
+training_frequency:
+    value: 2
+use_actions_mask:
+    value: false
+use_automatic_entropy_tuning:
+    value: true
+use_grad_clip:
+    value: true
+use_obsnorm:
+    value: true
+use_rewnorm:
+    value: true
+vectorize:
+    value: DummyVecEnv
+wandb_user_name:
+    value: "2797824480"

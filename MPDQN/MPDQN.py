@@ -1,4 +1,8 @@
 import xuance as xp
+from pdqn import PDQN  # 修改后的PDQN代码文件
+from xuance.torch.agents import REGISTRY_Agents
+
+REGISTRY_Agents['PDQN'] = PDQN  # 修改玄策里的Agent注册表
 # import gymnasium as gym
 # from xuance.environment.single_agent_env.platform import PlatformEnv  # 导入环境类
 
