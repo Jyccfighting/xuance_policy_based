@@ -20,8 +20,8 @@ activation_action: 'tanh'
 
 seed: 1
 parallels: 10
-running_steps: 300000
-horizon_size: 128  # the horizon size for an environment, buffer_size = horizon_size * parallels.
+running_steps: 500000
+horizon_size: 256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
 n_epochs: 1
 n_minibatch: 1
 learning_rate: 0.0004
@@ -43,6 +43,6 @@ rewnorm_range: 5
 
 test_steps: 10000
 eval_interval: 50000
-test_episode: 1
+test_episode: 10
 log_dir: "./logs/pg/"
 model_dir: "./models/pg/"
