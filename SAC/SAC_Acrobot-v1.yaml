@@ -22,8 +22,8 @@ seed: 1
 parallels: 10
 buffer_size: 200000
 batch_size: 256
-learning_rate_actor: 0.001
-learning_rate_critic: 0.001
+learning_rate_actor: 0.0004
+learning_rate_critic: 0.0004
 gamma: 0.99
 alpha: 0.2
 use_automatic_entropy_tuning: True
@@ -33,16 +33,16 @@ training_frequency: 2
 running_steps: 500000
 start_training: 2000
 
-use_grad_clip: False  # gradient normalization
+use_grad_clip: True  # gradient normalization
 clip_type: 1  # Gradient clip for Mindspore: 0: ms.ops.clip_by_value; 1: ms.nn.ClipByNorm()
 grad_clip_norm: 0.5
 use_actions_mask: False
-use_obsnorm: False  # Whether to use observation normalization trick.
-use_rewnorm: False  # Whether to use reward normalization trick.
+use_obsnorm: True  # Whether to use observation normalization trick.
+use_rewnorm: True  # Whether to use reward normalization trick.
 obsnorm_range: 5
 rewnorm_range: 5
 
 eval_interval: 50000
-test_episode: 5
+test_episode: 10
 log_dir: "logs/sac/"
 model_dir: "models/sac/"
