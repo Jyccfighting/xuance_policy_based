@@ -1,0 +1,24 @@
+2026-07-29 23:16:58,302 INFO    MainThread:222360 [wandb_setup.py:_flush():81] Current SDK version is 0.28.1
+2026-07-29 23:16:58,302 INFO    MainThread:222360 [wandb_setup.py:_flush():81] Configure stats pid to 222360
+2026-07-29 23:16:58,302 INFO    MainThread:222360 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-07-29 23:16:58,303 INFO    MainThread:222360 [wandb_init.py:setup_run_log_directory():729] Logging user logs to D:\document\coding\policy\logs\mpdqn\Platform-v0\wandb\run-20260729_231658-iij48sy8\logs\debug.log
+2026-07-29 23:16:58,303 INFO    MainThread:222360 [wandb_init.py:setup_run_log_directory():730] Logging internal logs to D:\document\coding\policy\logs\mpdqn\Platform-v0\wandb\run-20260729_231658-iij48sy8\logs\debug-internal.log
+2026-07-29 23:16:58,304 INFO    MainThread:222360 [wandb_init.py:init():772] calling init triggers
+2026-07-29 23:16:58,304 INFO    MainThread:222360 [wandb_init.py:init():777] wandb.init called with sweep_config: {}
+config: {'dl_toolbox': 'torch', 'project_name': 'MPDQN_Platform', 'logger': 'wandb', 'wandb_user_name': '2797824480', 'render': False, 'render_mode': 'rgb_array', 'fps': 50, 'device': 'cpu', 'distributed_training': False, 'master_port': '12355', 'agent': 'MPDQN', 'env_name': 'Platform', 'env_id': 'Platform-v0', 'env_seed': None, 'vectorize': 'NOREQUIRED', 'policy': 'MPDQN_Policy', 'representation': 'Basic_MLP', 'representation_hidden_size': [128], 'actor_hidden_size': [256], 'critic_hidden_size': [256], 'activation': 'relu', 'activation_action': 'tanh', 'seed': 1, 'parallels': 8, 'running_steps': 100000, 'learning_rate': 0.001, 'eval_interval': 1000, 'test_episode': 20, 'log_dir': 'logs/mpdqn/Platform-v0', 'model_dir': 'models/mpdqn/Platform-v0', 'max_episode_steps': 200, 'learner': 'MPDQN_Learner', 'runner': 'DRL', 'conactor_hidden_size': [128], 'qnetwork_hidden_size': [128], 'buffer_size': 20000, 'batch_size': 128, 'gamma': 0.99, 'tau': 0.005, 'start_greedy': 0.5, 'end_greedy': 0.05, 'decay_step_greedy': 1000000, 'start_noise': 0.1, 'end_noise': 0.1, 'training_frequency': 1, 'start_training': 1000, 'use_grad_clip': True, 'grad_clip_norm': 0.5, 'use_actions_mask': False, 'use_obsnorm': False, 'use_rewnorm': False, 'obsnorm_range': 5, 'rewnorm_range': 5, 'agent_name': 'mpdqn', 'result_dir': 'results/mpdqn\\Platform-v0', 'observation_space': Box(0.0, 1.0, (9,), float32), 'action_space': Tuple(Discrete(3), Box(0.0, 30.0, (1,), float32), Box(0.0, 720.0, (1,), float32), Box(0.0, 430.0, (1,), float32)), 'episode_length': 200, '_wandb': {}}
+2026-07-29 23:16:58,304 INFO    MainThread:222360 [wandb_init.py:init():820] starting backend
+2026-07-29 23:16:58,304 INFO    MainThread:222360 [wandb_init.py:init():835] sending inform_init request
+2026-07-29 23:16:58,418 INFO    MainThread:222360 [wandb_init.py:init():840] backend started and connected
+2026-07-29 23:16:58,420 INFO    MainThread:222360 [wandb_init.py:init():910] updated telemetry
+2026-07-29 23:16:58,510 INFO    MainThread:222360 [wandb_init.py:init():933] communicating run to backend with 90.0 second timeout
+2026-07-29 23:17:02,091 INFO    MainThread:222360 [wandb_init.py:init():978] starting run threads in backend
+2026-07-29 23:17:02,205 INFO    MainThread:222360 [wandb_run.py:_console_start():2621] atexit reg
+2026-07-29 23:17:02,205 INFO    MainThread:222360 [wandb_run.py:_redirect():2471] redirect: wrap_raw
+2026-07-29 23:17:02,205 INFO    MainThread:222360 [wandb_run.py:_redirect():2540] Wrapping output streams.
+2026-07-29 23:17:02,205 INFO    MainThread:222360 [wandb_run.py:_redirect():2563] Redirects installed.
+2026-07-29 23:17:02,208 INFO    MainThread:222360 [wandb_init.py:init():1016] run started, returning control to user process
+2026-07-29 23:17:02,245 INFO    MainThread:222360 [wandb_run.py:_finish():2383] finishing run 2797824480/MPDQN_Platform/iij48sy8
+2026-07-29 23:17:02,245 INFO    MainThread:222360 [wandb_run.py:_atexit_cleanup():2588] got exitcode: 0
+2026-07-29 23:17:02,246 INFO    MainThread:222360 [wandb_run.py:_restore():2570] restore
+2026-07-29 23:17:02,246 INFO    MainThread:222360 [wandb_run.py:_restore():2576] restore done
+2026-07-29 23:17:27,486 INFO    MainThread:222360 [wandb_run.py:_footer_sync_info():3993] logging synced files
