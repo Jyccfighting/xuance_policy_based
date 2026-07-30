@@ -1,13 +1,3 @@
-# import logging
-# from typing import Optional
-
-# import numpy as np
-# import pandas as pd
-
-# from drl_analyzer.models import Metrics
-
-# logger = logging.getLogger(__name__)
-
 """
 metrics.py
 
@@ -86,6 +76,9 @@ class MetricsCalculator:
         self,
         history: pd.DataFrame
     ) -> Optional[pd.Series]:
+        print("====================")
+        print(history.columns.tolist())
+        print("====================")
 
         # -----------------------------
         # Xuance
@@ -101,7 +94,7 @@ class MetricsCalculator:
 
             for c in history.columns
 
-            if "Test-Episode-Rewards" in c
+            if "Test-Episode-Rewards/Mean-Score" in c
 
         ]
 
@@ -109,10 +102,24 @@ class MetricsCalculator:
         if len(test_columns) > 0:
 
             logger.info(
-                "Xuance test reward detected."
+                f"Xuance test reward detected: {test_columns[0]}"
             )
 
-            return history[test_columns[0]]
+
+            reward = history[test_columns[0]]
+
+
+            print("====================")
+            print("Reward column:")
+            print(test_columns[0])
+            print("Reward preview:")
+            print(reward.head(10))
+            print("Reward length:")
+            print(len(reward))
+            print("====================")
+
+
+            return reward
         
         # -----------------------------
         # Xuance Train Reward
@@ -135,12 +142,21 @@ class MetricsCalculator:
                 "Xuance reward detected."
             )
 
-            reward = history[
-                xuance_columns
-            ].mean(axis=1)
+            # reward = history[
+            #     xuance_columns
+            # ].mean(axis=1)
+            
+            reward = (
+                history[xuance_columns]
+                .stack()
+                .dropna()
+            )
 
-            return reward
-
+            # return reward
+            return (
+            reward
+            .reset_index(drop=True)
+        )
         # -----------------------------
         # Stable-Baselines3
         # -----------------------------
@@ -159,7 +175,11 @@ class MetricsCalculator:
                     f"Reward : {col}"
                 )
 
-                return history[col]
+                return (
+                    history[col]
+                    .dropna()
+                    .reset_index(drop=True)
+                )
 
         # -----------------------------
         # CleanRL
@@ -179,7 +199,11 @@ class MetricsCalculator:
                     f"Reward : {col}"
                 )
 
-                return history[col]
+                return (
+                    history[col]
+                    .dropna()
+                    .reset_index(drop=True)
+                )
 
         # -----------------------------
         # Generic
@@ -212,8 +236,13 @@ class MetricsCalculator:
                 logger.info(
                     f"Reward : {col}"
                 )
+                
 
-                return history[col]
+                return (
+                    history[col]
+                    .dropna()
+                    .reset_index(drop=True)
+                )
 
         logger.warning(
             "Reward column not found."
@@ -296,6 +325,9 @@ class MetricsCalculator:
     ):
 
         reward = reward.dropna()
+        
+        if len(reward) == 0:
+            return
 
         if reward.empty:
 
@@ -353,8 +385,8 @@ class MetricsCalculator:
 
         )
 
+        metrics.episodes = len(reward)
         metrics.total_steps = len(reward)
-
         # More statistics
 
         self.compute_statistics(
