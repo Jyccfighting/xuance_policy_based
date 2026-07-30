@@ -1,252 +1,125 @@
 """
 history_loader.py
 
-Load WandB History CSV into pandas DataFrame.
-
-Author : yyJ
-Version : 1.0
+Load WandB training history.
 """
 
-from __future__ import annotations
-
-import logging
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
-logger = logging.getLogger(__name__)
 
 
 class HistoryLoader:
-    """
-    Load WandB exported history CSV.
 
-    Example
-    -------
-    loader = HistoryLoader()
-
-    history = loader.load(
-        Path("history.csv")
-    )
-    """
-
-    def __init__(self):
-
-        pass
-
-    # ----------------------------------------------------
-    # Public API
-    # ----------------------------------------------------
 
     def load(
         self,
-        csv_path: Path
-    ) -> Optional[pd.DataFrame]:
-        """
-        Load one history csv.
+        run_path: Path
+    ) -> pd.DataFrame | None:
 
-        Parameters
-        ----------
-        csv_path : Path
 
-        Returns
-        -------
-        DataFrame or None
-        """
+        run_path = Path(run_path)
 
-        csv_path = Path(csv_path)
 
-        if not csv_path.exists():
 
-            logger.warning(
-                f"History file not found:\n{csv_path}"
+        # ==================================
+        # 1. history.csv
+        # ==================================
+
+        history_csv = (
+            run_path /
+            "files" /
+            "history.csv"
+        )
+
+
+        if history_csv.exists():
+
+            return pd.read_csv(
+                history_csv
             )
 
-            return None
+
+
+        # ==================================
+        # 2. WandB API
+        # ==================================
 
         try:
 
-            history = pd.read_csv(csv_path)
+            return self._load_from_wandb(
+                run_path
+            )
+
 
         except Exception as e:
 
-            logger.exception(e)
-
-            return None
-
-        history = self.clean(history)
-
-        logger.info(
-            "History loaded: %d rows × %d columns",
-            len(history),
-            len(history.columns)
-        )
-
-        return history
-
-    # ----------------------------------------------------
-    # Clean Data
-    # ----------------------------------------------------
-
-    def clean(
-        self,
-        history: pd.DataFrame
-    ) -> pd.DataFrame:
-
-        history = history.copy()
-
-        history.columns = [
-
-            str(c).strip()
-
-            for c in history.columns
-
-        ]
-
-        history = history.drop_duplicates()
-
-        history = history.reset_index(drop=True)
-
-        return history
-    
-    # ----------------------------------------------------
-    # Reward Column
-    # ----------------------------------------------------
-
-    @staticmethod
-    def reward_column(history):
-
-        candidates = [
-
-            "train/episode_reward",
-
-            "episode_reward",
-
-            "reward",
-
-            "Reward",
-
-            "episode_return",
-
-            "returns",
-
-            "eval/reward"
-
-        ]
-
-        for col in candidates:
-
-            if col in history.columns:
-
-                return col
-
-        return None
-
-    # ----------------------------------------------------
-
-    @staticmethod
-    def loss_column(history):
-
-        candidates = [
-
-            "loss",
-
-            "Loss",
-
-            "train/loss",
-
-            "critic_loss",
-
-            "actor_loss",
-
-            "q_loss"
-
-        ]
-
-        for col in candidates:
-
-            if col in history.columns:
-
-                return col
-
-        return None
-
-    # ----------------------------------------------------
-
-    @staticmethod
-    def step_column(history):
-
-        candidates = [
-
-            "_step",
-
-            "global_step",
-
-            "step",
-
-            "train_step"
-
-        ]
-
-        for col in candidates:
-
-            if col in history.columns:
-
-                return col
-
-        return None
-
-    # ----------------------------------------------------
-
-    @staticmethod
-    def runtime_column(history):
-
-        if "_runtime" in history.columns:
-
-            return "_runtime"
-
-        return None
-    
-    def reward(
-        self,
-        history
-    ):
-
-        col = self.reward_column(history)
-
-        if col is None:
-
-            return None
-
-        return history[col]
-
-
-    def loss(
-        self,
-        history
-    ):
-
-        col = self.loss_column(history)
-
-        if col is None:
-
-            return None
-
-        return history[col]
-
-
-    def steps(
-        self,
-        history
-    ):
-
-        col = self.step_column(history)
-
-        if col is None:
-
-            return pd.Series(
-                range(len(history))
+            print(
+                "WandB API loading failed:",
+                e
             )
 
-        return history[col]
+
+
+        return None
+
+
+
+    def _load_from_wandb(
+        self,
+        run_path: Path
+    ):
+        """
+        Load history using wandb API.
+        """
+
+
+        import wandb
+
+
+
+        # 从目录获取run id
+
+        run_id = (
+            run_path.name
+            .split("-")[-1]
+        )
+
+
+        # project路径
+
+        parts = run_path.parts
+
+
+        # 找 project
+
+        # logs/a2c/Acrobot-v1/wandb/run-xxx
+
+        algorithm = parts[-4]
+
+        environment = parts[-3]
+
+
+        project = (
+            f"{algorithm}_{environment}"
+        )
+
+
+
+        api = wandb.Api()
+
+
+
+        run = api.run(
+            f"2797824480/{project}/{run_id}"
+        )
+
+
+
+        history = run.history(
+            pandas=True
+        )
+
+
+        return history

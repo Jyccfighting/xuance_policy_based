@@ -81,24 +81,31 @@ class MetricsCalculator:
         history: pd.DataFrame
     ) -> Optional[pd.Series]:
 
+        # Xuance
+        xuance_cols = [
+            c for c in history.columns
+            if "Train-Episode-Rewards" in c
+        ]
+
+        if xuance_cols:
+
+            logger.info(
+                f"Xuance Reward Columns : {len(xuance_cols)}"
+            )
+    
+            return history[xuance_cols].mean(axis=1)
+
         candidates = [
-
             "train/episode_reward",
-
             "episode_reward",
-
             "reward",
-
             "Reward",
-
             "returns",
-
             "episode_return",
-
             "test/episode_reward",
-
-            "eval/reward"
-
+            "eval/reward",
+            "rollout/ep_rew_mean",
+            "charts/episodic_return"
         ]
 
         for col in candidates:
@@ -109,7 +116,7 @@ class MetricsCalculator:
                     f"Reward Column : {col}"
                 )
 
-                return history[col]
+            return history[col]
 
         logger.warning(
             "Reward column not found."
@@ -165,8 +172,9 @@ class MetricsCalculator:
         return None
     
     
-    @staticmethod
+    
     def compute_reward(
+        self,
         reward: pd.Series,
         metrics: Metrics
     ):
@@ -337,140 +345,137 @@ class MetricsCalculator:
         )
 
 
-def compute_advanced_metrics(
-    self,
-    reward: pd.Series,
-    metrics: Metrics,
-    window: int = 100
-):
+    def compute_advanced_metrics(
+        self,
+        reward: pd.Series,
+        metrics: Metrics,
+        window: int = 100
+    ):
 
-    reward = reward.dropna()
+        reward = reward.dropna()
 
-    if reward.empty:
-        return
+        if reward.empty:
+            return
 
-    # ---------- Last N ----------
-    tail = reward.tail(min(window, len(reward)))
+        # ---------- Last N ----------
+        tail = reward.tail(min(window, len(reward)))
 
-    metrics.last100_mean_reward = float(
-        tail.mean()
-    )
-
-    metrics.last100_std_reward = float(
-        tail.std()
-    )
-
-    # ---------- Peak ----------
-    metrics.peak_reward = float(
-        reward.max()
-    )
-
-    metrics.peak_step = int(
-        reward.idxmax()
-    )
-
-    # ---------- Oscillation ----------
-    metrics.reward_oscillation = float(
-        tail.std()
-    )
-
-    # ---------- Reward Slope ----------
-    if len(tail) > 1:
-
-        x = np.arange(len(tail))
-
-        slope = np.polyfit(
-            x,
-            tail.to_numpy(),
-            1
-        )[0]
-
-        metrics.reward_slope = float(
-            slope
+        metrics.last100_mean_reward = float(
+            tail.mean()
         )
 
-    # ---------- Plateau ----------
-    if (
-        metrics.reward_slope < 0.01
-        and metrics.reward_oscillation < 5
+        metrics.last100_std_reward = float(
+            tail.std()
+        )
+
+        # ---------- Peak ----------
+        metrics.peak_reward = float(
+            reward.max()
+        )
+
+        metrics.peak_step = int(
+            reward.idxmax()
+        )
+
+        # ---------- Oscillation ----------
+        metrics.reward_oscillation = float(
+            tail.std()
+        )
+
+        # ---------- Reward Slope ----------
+        if len(tail) > 1:
+
+            x = np.arange(len(tail))
+
+            slope = np.polyfit(
+                x,
+                tail.to_numpy(),
+                1
+            )[0]
+
+            metrics.reward_slope = float(
+                slope
+            )
+
+        # ---------- Plateau ----------
+        if (
+            metrics.reward_slope < 0.01
+            and metrics.reward_oscillation < 5
+        ):
+            metrics.plateau = True
+
+
+    def stability_score(
+        self,
+        reward: pd.Series
     ):
-        metrics.plateau = True
 
+        reward = reward.dropna()
 
-def stability_score(
-    self,
-    reward: pd.Series
-):
+        if reward.empty:
 
-    reward = reward.dropna()
+            return np.nan
 
-    if reward.empty:
+        tail = reward.tail(
+            min(100, len(reward))
+        )
 
-        return np.nan
+        mean = tail.mean()
 
-    tail = reward.tail(
-        min(100, len(reward))
-    )
+        std = tail.std()
 
-    mean = tail.mean()
+        if mean == 0:
 
-    std = tail.std()
+            return np.nan
 
-    if mean == 0:
+        return float(
 
-        return np.nan
+            100 / (1 + std / abs(mean))
 
-    return float(
-
-        100 / (1 + std / abs(mean))
-
-    )
+        )
     
-    metrics.stability_score = self.stability_score(
-    reward
-    )
     
-def learning_efficiency(
-    self,
-    reward: pd.Series
-):
+    def learning_efficiency(
+        self,
+        reward: pd.Series
+    ):
 
-    reward = reward.dropna()
+        reward = reward.dropna()
 
-    if reward.empty:
+        if reward.empty:
 
-        return np.nan
+            return np.nan
 
-    auc = np.trapz(
-        reward.to_numpy()
-    )
+        auc = np.trapz(
+            reward.to_numpy()
+        )
 
-    return float(
+        return float(
 
-        auc / len(reward)
+            auc / len(reward)
 
-    )
+        )
     
-def overall_score(
-    self,
-    metrics: Metrics
-):
+    def overall_score(
+        self,
+        metrics: Metrics
+    ):
 
-    score = 0
+        score = 0
 
-    score += metrics.last100_mean_reward * 0.45
+        score += metrics.last100_mean_reward * 0.45
 
-    score += metrics.stability_score * 0.25
+        score += metrics.stability_score * 0.25
 
-    score += metrics.sample_efficiency * 0.20
+        score += metrics.sample_efficiency * 0.20
 
-    score += (
-        100
-        if metrics.plateau
-        else 60
-    ) * 0.10
+        score += (
+            100
+            if metrics.plateau
+            else 60
+        ) * 0.10
 
-    return float(score)
+        return float(score)
 
 
     # ==========================
