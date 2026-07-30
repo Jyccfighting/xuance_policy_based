@@ -406,6 +406,13 @@ class MetricsCalculator:
             metrics
 
         )
+        
+        self.compute_sample_efficiency(
+            
+            reward,
+            metrics
+            
+        )
 
         self.compute_advanced_metrics(
 
@@ -578,7 +585,37 @@ class MetricsCalculator:
             metrics.convergence_step=int(
                 idx.index[0]
             )
+            
+    def compute_sample_efficiency(
+        self,
+        reward,
+        metrics
+    ):
 
+        """
+        Sample efficiency:
+        smaller is better.
+
+        Represents how many training steps
+        are needed to reach convergence.
+        """
+
+        if metrics.convergence_step is None:
+
+            metrics.sample_efficiency = 0
+            return
+
+
+        if metrics.convergence_step == 0:
+
+            metrics.sample_efficiency = 0
+            return
+
+
+        metrics.sample_efficiency = (
+            1 /
+            metrics.convergence_step
+        )
     # =====================================================
     # Advanced Metrics
     # =====================================================

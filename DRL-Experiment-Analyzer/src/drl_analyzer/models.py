@@ -390,6 +390,8 @@ class Metrics:
     stability_score: float = np.nan
 
     learning_efficiency: float = np.nan
+    
+    sample_efficiency: float = None
 
     overall_score: float = np.nan
 
@@ -406,6 +408,8 @@ class Metrics:
     convergence_step: int = None
 
     convergence_threshold: float = None
+
+    success_rate: float = None
 
     # =====================================================
     # Export
@@ -462,6 +466,8 @@ class Experiment:
     
     
     project_name: str | None = None
+    
+    history=None
 
 
     # configuration
