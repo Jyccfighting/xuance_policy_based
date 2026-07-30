@@ -32,72 +32,176 @@
 #     folder.mkdir(parents=True, exist_ok=True)
 
 
+# """
+# config.py
+
+# Global configuration for DRL Experiment Analyzer.
+
+# Author : yyJ
+# Version : 1.0
+# """
+
+# from pathlib import Path
+
+# # ==========================================================
+# # Project Directory
+# # ==========================================================
+
+# PROJECT_ROOT = Path(__file__).resolve().parent
+
+# LOG_DIR = PROJECT_ROOT / "logs"
+
+# OUTPUT_DIR = PROJECT_ROOT / "output"
+
+# # ==========================================================
+# # Output Directory
+# # ==========================================================
+
+# EXCEL_DIR = OUTPUT_DIR / "excel"
+
+# CSV_DIR = OUTPUT_DIR / "csv"
+
+# PLOT_DIR = OUTPUT_DIR / "plots"
+
+# REPORT_DIR = OUTPUT_DIR / "reports"
+
+# # ==========================================================
+# # Supported File Names
+# # ==========================================================
+
+# CONFIG_FILE = "config.yaml"
+
+# SUMMARY_FILE = "wandb-summary.json"
+
+# HISTORY_FILE = "history.csv"
+
+# # ==========================================================
+# # Plot Settings
+# # ==========================================================
+
+# FIGURE_DPI = 300
+
+# FIGURE_SIZE = (10, 6)
+
+# # ==========================================================
+# # Logging
+# # ==========================================================
+
+# LOG_LEVEL = "INFO"
+
+# # ==========================================================
+# # Auto Create Output Directories
+# # ==========================================================
+
+# for directory in (
+#     OUTPUT_DIR,
+#     EXCEL_DIR,
+#     CSV_DIR,
+#     PLOT_DIR,
+#     REPORT_DIR,
+# ):
+#     directory.mkdir(parents=True, exist_ok=True)
+
+
 """
 config.py
 
-Global configuration for DRL Experiment Analyzer.
-
-Author : yyJ
-Version : 1.0
+Configuration models for DRL Analyzer.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
-# ==========================================================
-# Project Directory
-# ==========================================================
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+# ============================================================
+# Analyzer Configuration
+# ============================================================
 
-LOG_DIR = PROJECT_ROOT / "logs"
+@dataclass
+class AnalyzerConfig:
+    """
+    Global analyzer configuration.
+    """
 
-OUTPUT_DIR = PROJECT_ROOT / "output"
+    # experiment root directory
 
-# ==========================================================
-# Output Directory
-# ==========================================================
+    log_root: Path = Path("./logs")
 
-EXCEL_DIR = OUTPUT_DIR / "excel"
 
-CSV_DIR = OUTPUT_DIR / "csv"
+    # output directory
 
-PLOT_DIR = OUTPUT_DIR / "plots"
+    output_dir: Path = Path("./output")
 
-REPORT_DIR = OUTPUT_DIR / "reports"
 
-# ==========================================================
-# Supported File Names
-# ==========================================================
+    # export options
 
-CONFIG_FILE = "config.yaml"
+    save_excel: bool = True
 
-SUMMARY_FILE = "wandb-summary.json"
+    save_csv: bool = True
 
-HISTORY_FILE = "history.csv"
+    save_figures: bool = True
 
-# ==========================================================
-# Plot Settings
-# ==========================================================
 
-FIGURE_DPI = 300
+# ============================================================
+# Experiment Configuration
+# ============================================================
 
-FIGURE_SIZE = (10, 6)
+@dataclass
+class ExperimentConfig:
+    """
+    Configuration of one experiment.
+    """
 
-# ==========================================================
-# Logging
-# ==========================================================
+    algorithm: str | None = None
 
-LOG_LEVEL = "INFO"
+    environment: str | None = None
 
-# ==========================================================
-# Auto Create Output Directories
-# ==========================================================
+    seed: int | None = None
 
-for directory in (
-    OUTPUT_DIR,
-    EXCEL_DIR,
-    CSV_DIR,
-    PLOT_DIR,
-    REPORT_DIR,
-):
-    directory.mkdir(parents=True, exist_ok=True)
+
+    # original config parameters
+
+    parameters: dict[str, Any] = field(
+        default_factory=dict
+    )
+
+
+    @classmethod
+    def from_dict(
+        cls,
+        data: dict[str, Any]
+    ):
+        
+        def unwrap(value):
+
+                if isinstance(value, dict):
+
+                    if "value" in value:
+                        return value["value"]
+
+                return value
+
+
+        return cls(
+
+            algorithm=unwrap(
+                data.get("agent")
+        ),
+
+            environment=unwrap(
+                data.get("env_id")
+        ),
+
+            seed=unwrap(
+                data.get("env_seed")
+        ),
+            seed=unwrap(
+                data.get("seed")
+        ),
+            
+
+            parameters=data
+        )
