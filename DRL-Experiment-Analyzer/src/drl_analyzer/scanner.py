@@ -504,9 +504,12 @@ class Scanner:
             experiment = self._parse_run(run_dir)
 
             if experiment is not None:
-                experiments.append(
-                    experiment
-                )
+
+                if experiment.path.exists():
+
+                    experiments.append(
+                        experiment
+                    )
 
 
         return experiments

@@ -60,6 +60,12 @@ class Analyzer:
             history = self.history_loader.load(
                 experiment
             )
+            if history is None:
+                continue
+
+
+            if history.empty:
+                continue
 
             experiment.history = history
 

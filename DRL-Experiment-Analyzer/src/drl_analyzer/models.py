@@ -389,13 +389,23 @@ class Metrics:
 
     stability_score: float = np.nan
 
-    sample_efficiency: float = np.nan
-
     learning_efficiency: float = np.nan
 
     overall_score: float = np.nan
 
     plateau: bool = False
+    
+    # =====================================================
+    # 新增
+    # =====================================================
+    
+    best_step: int = 0
+
+    convergence_step: int = 0
+    
+    convergence_step: int = None
+
+    convergence_threshold: float = None
 
     # =====================================================
     # Export

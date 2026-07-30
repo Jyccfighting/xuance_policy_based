@@ -346,6 +346,10 @@ class MetricsCalculator:
             reward.max()
 
         )
+        
+        metrics.best_step = int(
+            reward.idxmax()
+        )
 
         metrics.worst_reward = float(
 
@@ -485,9 +489,12 @@ class MetricsCalculator:
         )
 
         # Sample Efficiency
+        # metrics.sample_efficiency = float(
+        #     metrics.best_reward /
+        #     len(reward)
+        # )
         metrics.sample_efficiency = float(
-            metrics.best_reward /
-            len(reward)
+            metrics.best_step
         )
 
         # Learning Efficiency
@@ -510,6 +517,29 @@ class MetricsCalculator:
     # Convergence
     # =====================================================
 
+    # def compute_convergence(
+    #     self,
+    #     reward: pd.Series,
+    #     metrics: Metrics
+    # ):
+
+    #     if reward.empty:
+    #         return
+
+    #     target = metrics.best_reward * 0.95
+
+    #     metrics.convergence_threshold = float(
+    #         target
+    #     )
+
+    #     idx = reward[reward >= target]
+
+    #     if len(idx) > 0:
+
+    #         metrics.convergence_step = int(
+    #             idx.index[0]
+    #         )
+    
     def compute_convergence(
         self,
         reward: pd.Series,
@@ -519,17 +549,33 @@ class MetricsCalculator:
         if reward.empty:
             return
 
-        target = metrics.best_reward * 0.95
+
+        best = metrics.best_reward
+
+
+        worst = reward.min()
+
+
+        threshold = (
+            worst +
+            0.95 *
+            (best-worst)
+    )
+
 
         metrics.convergence_threshold = float(
-            target
+            threshold
         )
 
-        idx = reward[reward >= target]
 
-        if len(idx) > 0:
+        idx = reward[
+            reward >= threshold
+        ]
 
-            metrics.convergence_step = int(
+
+        if len(idx)>0:
+
+            metrics.convergence_step=int(
                 idx.index[0]
             )
 
