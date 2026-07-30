@@ -1,11 +1,23 @@
+# import logging
+# from typing import Optional
+
+# import numpy as np
+# import pandas as pd
+
+# from drl_analyzer.models import Metrics
+
+# logger = logging.getLogger(__name__)
+
 """
 metrics.py
 
-Compute Metrics from History
+Calculate metrics from WandB History DataFrame.
 
-Author : yyJ
-
-Version : 1.0
+Supported Frameworks
+--------------------
+- Xuance
+- Stable-Baselines3
+- CleanRL
 """
 
 from __future__ import annotations
@@ -16,96 +28,181 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from models import Metrics
-
+from drl_analyzer.models import Metrics
 
 logger = logging.getLogger(__name__)
 
 
 class MetricsCalculator:
     """
-    根据 History DataFrame
-
-    自动计算所有统计指标
+    Calculate all metrics from a training history.
     """
 
-    def __init__(self):
-
-        pass
-
-    # ---------------------------------
+    # =====================================================
+    # Main Entrance
+    # =====================================================
 
     def calculate(
         self,
-        history: pd.DataFrame
+        history: Optional[pd.DataFrame]
     ) -> Metrics:
 
         metrics = Metrics()
 
         if history is None:
-
+            logger.warning("History is None.")
             return metrics
 
         if history.empty:
-
+            logger.warning("History is empty.")
             return metrics
 
-        reward = self.find_reward(history)
-
-        loss = self.find_loss(history)
-
-        runtime = self.find_runtime(history)
+        reward = self.extract_reward(history)
+        loss = self.extract_loss(history)
+        runtime = self.extract_runtime(history)
 
         if reward is not None:
-
             self.compute_reward(
                 reward,
                 metrics
             )
 
         if loss is not None:
-
             self.compute_loss(
                 loss,
                 metrics
             )
 
         if runtime is not None:
-
             metrics.runtime = runtime
 
         return metrics
-    
-    @staticmethod
-    def find_reward(
+
+    # =====================================================
+    # Reward
+    # =====================================================
+
+    def extract_reward(
+        self,
         history: pd.DataFrame
     ) -> Optional[pd.Series]:
 
+        # -----------------------------
         # Xuance
-        xuance_cols = [
-            c for c in history.columns
-            if "Train-Episode-Rewards" in c
+        # -----------------------------
+        
+        # -----------------------------
+        # Xuance Test Reward
+        # -----------------------------
+
+        test_columns = [
+
+            c
+
+            for c in history.columns
+
+            if "Test-Episode-Rewards" in c
+
         ]
 
-        if xuance_cols:
+
+        if len(test_columns) > 0:
 
             logger.info(
-                f"Xuance Reward Columns : {len(xuance_cols)}"
+                "Xuance test reward detected."
             )
-    
-            return history[xuance_cols].mean(axis=1)
+
+            return history[test_columns[0]]
+        
+        # -----------------------------
+        # Xuance Train Reward
+        # -----------------------------
+
+        
+        xuance_columns = [
+
+            c
+
+            for c in history.columns
+
+            if "Train-Episode-Rewards" in c
+
+        ]
+
+        if len(xuance_columns) > 0:
+
+            logger.info(
+                "Xuance reward detected."
+            )
+
+            reward = history[
+                xuance_columns
+            ].mean(axis=1)
+
+            return reward
+
+        # -----------------------------
+        # Stable-Baselines3
+        # -----------------------------
+
+        sb3_columns = [
+
+            "rollout/ep_rew_mean"
+
+        ]
+
+        for col in sb3_columns:
+
+            if col in history.columns:
+
+                logger.info(
+                    f"Reward : {col}"
+                )
+
+                return history[col]
+
+        # -----------------------------
+        # CleanRL
+        # -----------------------------
+
+        cleanrl_columns = [
+
+            "charts/episodic_return"
+
+        ]
+
+        for col in cleanrl_columns:
+
+            if col in history.columns:
+
+                logger.info(
+                    f"Reward : {col}"
+                )
+
+                return history[col]
+
+        # -----------------------------
+        # Generic
+        # -----------------------------
 
         candidates = [
-            "train/episode_reward",
-            "episode_reward",
+
             "reward",
+
             "Reward",
-            "returns",
+
+            "episode_reward",
+
             "episode_return",
+
+            "returns",
+
+            "train/episode_reward",
+
             "test/episode_reward",
-            "eval/reward",
-            "rollout/ep_rew_mean",
-            "charts/episodic_return"
+
+            "eval/reward"
+
         ]
 
         for col in candidates:
@@ -113,19 +210,23 @@ class MetricsCalculator:
             if col in history.columns:
 
                 logger.info(
-                    f"Reward Column : {col}"
+                    f"Reward : {col}"
                 )
 
-            return history[col]
+                return history[col]
 
         logger.warning(
             "Reward column not found."
         )
 
         return None
-    
-    @staticmethod
-    def find_loss(
+
+    # =====================================================
+    # Loss
+    # =====================================================
+
+    def extract_loss(
+        self,
         history: pd.DataFrame
     ) -> Optional[pd.Series]:
 
@@ -136,6 +237,10 @@ class MetricsCalculator:
             "Loss",
 
             "train/loss",
+
+            "critic-loss",
+
+            "actor-loss",
 
             "critic_loss",
 
@@ -150,29 +255,40 @@ class MetricsCalculator:
             if col in history.columns:
 
                 logger.info(
-                    f"Loss Column : {col}"
+                    f"Loss : {col}"
                 )
 
                 return history[col]
 
+        logger.info(
+            "Loss column not found."
+        )
+
         return None
-    
-    
-    @staticmethod
-    def find_runtime(
+
+    # =====================================================
+    # Runtime
+    # =====================================================
+
+    def extract_runtime(
+        self,
         history: pd.DataFrame
     ) -> Optional[float]:
 
         if "_runtime" in history.columns:
 
             return float(
+
                 history["_runtime"].iloc[-1]
+
             )
 
         return None
-    
-    
-    
+
+    # =====================================================
+    # Reward Metrics
+    # =====================================================
+
     def compute_reward(
         self,
         reward: pd.Series,
@@ -181,89 +297,119 @@ class MetricsCalculator:
 
         reward = reward.dropna()
 
-        if len(reward) == 0:
+        if reward.empty:
 
             return
 
+        reward = reward.astype(float)
+
         metrics.final_reward = float(
+
             reward.iloc[-1]
+
         )
 
         metrics.best_reward = float(
+
             reward.max()
+
         )
 
         metrics.worst_reward = float(
+
             reward.min()
+
         )
 
         metrics.mean_reward = float(
+
             reward.mean()
+
         )
 
         metrics.median_reward = float(
+
             reward.median()
+
         )
 
         metrics.std_reward = float(
+
             reward.std()
+
         )
 
         metrics.reward_variance = float(
+
             reward.var()
+
         )
 
         metrics.auc_reward = float(
-            np.trapz(reward.to_numpy())
+
+            np.trapz(
+                reward.to_numpy()
+            )
+
         )
 
         metrics.total_steps = len(reward)
-        
-        self.compute_convergence(
-            reward,
-            metrics
-        )
+
+        # More statistics
 
         self.compute_statistics(
-            reward,
-            metrics
-        )
-        self.compute_advanced_metrics(
-            reward,
-            metrics
-            )
-        
-    
-    @staticmethod
-    def ema(
-        reward: pd.Series,
-        span: int = 20
-    ) -> pd.Series:
 
-        return reward.ewm(
-            span=span,
-            adjust=False
-        ).mean()
-        
-        
-    def compute_convergence(
+            reward,
+            metrics
+
+        )
+
+        self.compute_convergence(
+
+            reward,
+            metrics
+
+        )
+
+        self.compute_advanced_metrics(
+
+            reward,
+            metrics
+
+        )
+
+    # =====================================================
+    # Loss Metrics
+    # =====================================================
+
+    def compute_loss(
         self,
-        reward: pd.Series,
+        loss: pd.Series,
         metrics: Metrics
     ):
 
-        target = metrics.best_reward * 0.95
+        loss = loss.dropna()
 
-        metrics.convergence_threshold = target
-
-        index = reward[reward >= target]
-
-        if len(index) == 0:
+        if loss.empty:
 
             return
 
-        metrics.convergence_step = int(index.index[0])
-        
+        loss = loss.astype(float)
+
+        metrics.final_loss = float(
+
+            loss.iloc[-1]
+
+        )
+
+        metrics.mean_loss = float(
+
+            loss.mean()
+
+        )
+    # =====================================================
+    # Statistics
+    # =====================================================
 
     def compute_statistics(
         self,
@@ -273,68 +419,52 @@ class MetricsCalculator:
 
         reward = reward.dropna()
 
-        if len(reward) == 0:
-
+        if reward.empty:
             return
 
-        # ------------------------
         # Moving Average
-        # ------------------------
-
         ma = self.moving_average(reward)
 
         metrics.moving_average_reward = float(
             ma.iloc[-1]
         )
 
-        # ------------------------
         # EMA
-        # ------------------------
-
         ema = self.ema(reward)
 
         metrics.ema_reward = float(
             ema.iloc[-1]
         )
 
-        # ------------------------
-        # CV
-        # ------------------------
-
         mean = reward.mean()
 
+        std = reward.std()
+
+        # Coefficient of Variation
         if mean != 0:
 
             metrics.reward_cv = float(
-                reward.std() / mean
+                std / abs(mean)
             )
 
-        # ------------------------
-        # Stability
-        # ------------------------
-
-        metrics.stability_score = float(
-            1.0 / (1.0 + reward.std())
+        # Stability Score
+        metrics.stability_score = self.stability_score(
+            reward
         )
 
-        # ------------------------
         # Sample Efficiency
-        # ------------------------
-
         metrics.sample_efficiency = float(
             metrics.best_reward /
             len(reward)
         )
 
-        # ------------------------
-        # 95% CI
-        # ------------------------
+        # Learning Efficiency
+        metrics.learning_efficiency = self.learning_efficiency(
+            reward
+        )
 
-        std = reward.std()
-
-        n = len(reward)
-
-        ci = 1.96 * std / np.sqrt(n)
+        # 95% Confidence Interval
+        ci = 1.96 * std / np.sqrt(len(reward))
 
         metrics.reward_ci95_low = float(
             mean - ci
@@ -344,6 +474,36 @@ class MetricsCalculator:
             mean + ci
         )
 
+    # =====================================================
+    # Convergence
+    # =====================================================
+
+    def compute_convergence(
+        self,
+        reward: pd.Series,
+        metrics: Metrics
+    ):
+
+        if reward.empty:
+            return
+
+        target = metrics.best_reward * 0.95
+
+        metrics.convergence_threshold = float(
+            target
+        )
+
+        idx = reward[reward >= target]
+
+        if len(idx) > 0:
+
+            metrics.convergence_step = int(
+                idx.index[0]
+            )
+
+    # =====================================================
+    # Advanced Metrics
+    # =====================================================
 
     def compute_advanced_metrics(
         self,
@@ -357,8 +517,9 @@ class MetricsCalculator:
         if reward.empty:
             return
 
-        # ---------- Last N ----------
-        tail = reward.tail(min(window, len(reward)))
+        tail = reward.tail(
+            min(window, len(reward))
+        )
 
         metrics.last100_mean_reward = float(
             tail.mean()
@@ -368,7 +529,6 @@ class MetricsCalculator:
             tail.std()
         )
 
-        # ---------- Peak ----------
         metrics.peak_reward = float(
             reward.max()
         )
@@ -377,12 +537,10 @@ class MetricsCalculator:
             reward.idxmax()
         )
 
-        # ---------- Oscillation ----------
         metrics.reward_oscillation = float(
             tail.std()
         )
 
-        # ---------- Reward Slope ----------
         if len(tail) > 1:
 
             x = np.arange(len(tail))
@@ -395,25 +553,57 @@ class MetricsCalculator:
 
             metrics.reward_slope = float(
                 slope
+
             )
 
-        # ---------- Plateau ----------
-        if (
+        metrics.plateau = bool(
+
             metrics.reward_slope < 0.01
-            and metrics.reward_oscillation < 5
-        ):
-            metrics.plateau = True
 
+            and
 
+            metrics.reward_oscillation < 5
+
+        )
+
+        metrics.overall_score = self.overall_score(
+            metrics
+        )
+
+    # =====================================================
+    # Helper Functions
+    # =====================================================
+
+    @staticmethod
+    def moving_average(
+        reward: pd.Series,
+        window: int = 20
+    ) -> pd.Series:
+
+        return reward.rolling(
+            window=window,
+            min_periods=1
+        ).mean()
+
+    @staticmethod
+    def ema(
+        reward: pd.Series,
+        span: int = 20
+    ) -> pd.Series:
+
+        return reward.ewm(
+            span=span,
+            adjust=False
+        ).mean()
+
+    @staticmethod
     def stability_score(
-        self,
         reward: pd.Series
-    ):
+    ) -> float:
 
         reward = reward.dropna()
 
         if reward.empty:
-
             return np.nan
 
         tail = reward.tail(
@@ -425,25 +615,24 @@ class MetricsCalculator:
         std = tail.std()
 
         if mean == 0:
-
             return np.nan
 
         return float(
 
-            100 / (1 + std / abs(mean))
+            100.0 /
+
+            (1.0 + std / abs(mean))
 
         )
-    
-    
+
+    @staticmethod
     def learning_efficiency(
-        self,
         reward: pd.Series
-    ):
+    ) -> float:
 
         reward = reward.dropna()
 
         if reward.empty:
-
             return np.nan
 
         auc = np.trapz(
@@ -452,48 +641,48 @@ class MetricsCalculator:
 
         return float(
 
-            auc / len(reward)
+            auc /
+
+            len(reward)
 
         )
-    
+
+    @staticmethod
     def overall_score(
-        self,
         metrics: Metrics
-    ):
+    ) -> float:
 
-        score = 0
+        score = 0.0
 
-        score += metrics.last100_mean_reward * 0.45
+        if not np.isnan(metrics.last100_mean_reward):
 
-        score += metrics.stability_score * 0.25
+            score += (
+                metrics.last100_mean_reward
+                * 0.45
+            )
 
-        score += metrics.sample_efficiency * 0.20
+        if not np.isnan(metrics.stability_score):
+
+            score += (
+                metrics.stability_score
+                * 0.25
+            )
+
+        if not np.isnan(metrics.sample_efficiency):
+
+            score += (
+                metrics.sample_efficiency
+                * 0.20
+            )
 
         score += (
+
             100
+
             if metrics.plateau
+
             else 60
+
         ) * 0.10
 
         return float(score)
-
-
-    # ==========================
-    # Curve Analysis
-    # ==========================
-
-    moving_average_reward: float = np.nan
-
-    ema_reward: float = np.nan
-
-    stability_score: float = np.nan
-
-    sample_efficiency: float = np.nan
-
-    reward_cv: float = np.nan
-
-    reward_ci95_low: float = np.nan
-
-    reward_ci95_high: float = np.nan
-    
-    convergence_threshold: float = np.nan

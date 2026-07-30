@@ -1,3 +1,136 @@
+# """
+# history_loader.py
+
+# Load WandB training history.
+# """
+
+# from pathlib import Path
+
+# import pandas as pd
+
+# import yaml
+
+# class HistoryLoader:
+
+
+#     def load(
+#         self,
+#         experiment
+#     ):
+
+
+#         run_path = experiment.path
+
+
+
+#         # ==================================
+#         # 1. history.csv
+#         # ==================================
+
+#         history_csv = (
+#             run_path /
+#             "files" /
+#             "history.csv"
+#         )
+
+
+#         if history_csv.exists():
+
+#             return pd.read_csv(
+#                 history_csv
+#             )
+
+
+
+#         # ==================================
+#         # 2. WandB API
+#         # ==================================
+
+#         try:
+
+#             return self._load_from_wandb(
+#                 run_path
+#             )
+
+
+#         except Exception as e:
+
+#             print(
+#                 "WandB API loading failed:",
+#                 e
+#             )
+
+
+
+#         return None
+
+
+
+#     def _load_from_wandb(
+#         self,
+#         experiment
+#     ):
+#         """
+#         Load history using wandb API.
+#         """
+
+#         import wandb
+
+
+#         run_path = experiment.path
+
+
+#         # -------------------------
+#         # get wandb run id
+#         # -------------------------
+
+#         run_id = (
+#             run_path.name
+#             .split("-")[-1]
+#         )
+
+
+#         # -------------------------
+#         # get project name
+#         # -------------------------
+
+#         project = experiment.config.get(
+#             "project_name",
+#             None
+#         )
+
+
+#         if project is None:
+
+#             raise ValueError(
+#                 "project_name not found"
+#             )
+
+
+#         # -------------------------
+#         # wandb api
+#         # -------------------------
+
+#         api = wandb.Api()
+        
+#         entity = experiment.config.get(
+#             "wandb_user_name"
+#         )
+
+
+#         run = api.run(
+#             f"{entity}/{project}/{run_id}"
+#         )
+
+
+#         history = run.history(
+#             pandas=True
+#         )
+
+
+#         return history
+
+
 """
 history_loader.py
 
@@ -15,11 +148,23 @@ class HistoryLoader:
 
     def load(
         self,
-        run_path: Path
-    ) -> pd.DataFrame | None:
+        experiment
+    ):
+        """
+        Load training history.
+
+        Parameters
+        ----------
+        experiment:
+            Experiment object
+
+        Returns
+        -------
+        pandas.DataFrame | None
+        """
 
 
-        run_path = Path(run_path)
+        run_path = experiment.path
 
 
 
@@ -49,7 +194,7 @@ class HistoryLoader:
         try:
 
             return self._load_from_wandb(
-                run_path
+                experiment
             )
 
 
@@ -68,7 +213,7 @@ class HistoryLoader:
 
     def _load_from_wandb(
         self,
-        run_path: Path
+        experiment
     ):
         """
         Load history using wandb API.
@@ -79,7 +224,13 @@ class HistoryLoader:
 
 
 
-        # 从目录获取run id
+        run_path = experiment.path
+
+
+
+        # -------------------------
+        # get wandb run id
+        # -------------------------
 
         run_id = (
             run_path.name
@@ -87,32 +238,59 @@ class HistoryLoader:
         )
 
 
-        # project路径
 
-        parts = run_path.parts
-
-
-        # 找 project
-
-        # logs/a2c/Acrobot-v1/wandb/run-xxx
-
-        algorithm = parts[-4]
-
-        environment = parts[-3]
-
+        # -------------------------
+        # get wandb project
+        # -------------------------
 
         project = (
-            f"{algorithm}_{environment}"
+            experiment.config
+            .get(
+                "project_name",
+                None
+            )
         )
 
 
+        if project is None:
+
+            raise ValueError(
+                "project_name not found in config"
+            )
+
+
+
+        # -------------------------
+        # get wandb entity
+        # -------------------------
+
+        entity = (
+            experiment.config
+            .get(
+                "wandb_user_name",
+                None
+            )
+        )
+
+
+        if entity is None:
+
+            raise ValueError(
+                "wandb_user_name not found in config"
+            )
+
+
+
+        # -------------------------
+        # WandB API
+        # -------------------------
 
         api = wandb.Api()
 
 
 
         run = api.run(
-            f"2797824480/{project}/{run_id}"
+            f"{entity}/{project}/{run_id}"
         )
 
 

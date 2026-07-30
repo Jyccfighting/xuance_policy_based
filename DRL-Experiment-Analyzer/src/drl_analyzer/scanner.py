@@ -451,7 +451,7 @@ from drl_analyzer.utils import (
 )
 
 
-class ExperimentScanner:
+class Scanner:
     """
     Scan experiment folders and create Experiment objects.
     """
@@ -625,10 +625,13 @@ class ExperimentScanner:
 
             path=run_dir,
 
-            config=clean_config
+            config=clean_config,
+
+            project_name=clean_config.get(
+                "project_name"
+            )
 
         )
-
 
         return experiment
 

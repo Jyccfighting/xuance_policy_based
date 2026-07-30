@@ -197,11 +197,9 @@ class ExperimentConfig:
 
             seed=unwrap(
                 data.get("env_seed")
-        ),
-            seed=unwrap(
+                or
                 data.get("seed")
         ),
-            
 
             parameters=data
         )

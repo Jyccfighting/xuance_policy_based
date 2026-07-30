@@ -298,6 +298,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+import numpy as np
 
 
 # ============================================================
@@ -307,27 +308,102 @@ import pandas as pd
 @dataclass
 class Metrics:
     """
-    Experiment evaluation metrics.
+    All calculated metrics of one experiment.
     """
 
-    final_reward: float | None = None
+    # =====================================================
+    # Reward
+    # =====================================================
 
-    best_reward: float | None = None
+    final_reward: float = np.nan
 
-    mean_reward: float | None = None
+    best_reward: float = np.nan
 
-    std_reward: float | None = None
+    worst_reward: float = np.nan
 
-    final_loss: float | None = None
+    mean_reward: float = np.nan
 
-    mean_loss: float | None = None
+    median_reward: float = np.nan
 
-    runtime: float | None = None
+    std_reward: float = np.nan
 
-    total_steps: int | None = None
+    reward_variance: float = np.nan
 
-    episodes: int | None = None
+    auc_reward: float = np.nan
 
+    # =====================================================
+    # Loss
+    # =====================================================
+
+    final_loss: float = np.nan
+
+    mean_loss: float = np.nan
+
+    # =====================================================
+    # Runtime
+    # =====================================================
+
+    runtime: float = np.nan
+
+    total_steps: int = 0
+
+    episodes: int = 0
+
+    # =====================================================
+    # Curve Statistics
+    # =====================================================
+
+    moving_average_reward: float = np.nan
+
+    ema_reward: float = np.nan
+
+    reward_cv: float = np.nan
+
+    reward_ci95_low: float = np.nan
+
+    reward_ci95_high: float = np.nan
+
+    # =====================================================
+    # Convergence
+    # =====================================================
+
+    convergence_step: int = -1
+
+    convergence_threshold: float = np.nan
+
+    # =====================================================
+    # Advanced Metrics
+    # =====================================================
+
+    last100_mean_reward: float = np.nan
+
+    last100_std_reward: float = np.nan
+
+    peak_reward: float = np.nan
+
+    peak_step: int = -1
+
+    reward_slope: float = np.nan
+
+    reward_oscillation: float = np.nan
+
+    stability_score: float = np.nan
+
+    sample_efficiency: float = np.nan
+
+    learning_efficiency: float = np.nan
+
+    overall_score: float = np.nan
+
+    plateau: bool = False
+
+    # =====================================================
+    # Export
+    # =====================================================
+
+    def to_dict(self):
+
+        return self.__dict__.copy()
 
 # ============================================================
 # Training History
@@ -373,6 +449,9 @@ class Experiment:
     # experiment directory
 
     path: Path | None = None
+    
+    
+    project_name: str | None = None
 
 
     # configuration
