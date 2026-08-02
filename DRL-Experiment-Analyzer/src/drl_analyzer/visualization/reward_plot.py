@@ -1,81 +1,13 @@
-"""
-Plot training reward curves
-"""
-
-from pathlib import Path
 import matplotlib.pyplot as plt
-
 
 
 class RewardPlotter:
 
 
-    def __init__(
+    def plot(
         self,
-        save_dir="results/figures"
-    ):
-
-        self.save_dir = Path(save_dir)
-
-        self.save_dir.mkdir(
-            parents=True,
-            exist_ok=True
-        )
-
-
-    def plot_single(
-        self,
-        experiment,
-        reward
-    ):
-
-        plt.figure(
-            figsize=(8,5)
-        )
-
-
-        plt.plot(
-            reward
-        )
-
-
-        plt.xlabel(
-            "Training Step"
-        )
-
-        plt.ylabel(
-            "Reward"
-        )
-
-
-        plt.title(
-            f"{experiment.algorithm}-{experiment.environment}"
-        )
-
-
-        plt.grid()
-
-
-        path = (
-            self.save_dir /
-            f"{experiment.algorithm}_{experiment.environment}.png"
-        )
-
-
-        plt.savefig(
-            path,
-            dpi=300,
-            bbox_inches="tight"
-        )
-
-
-        plt.close()
-
-
-
-    def plot_compare(
-        self,
-        experiments
+        experiments,
+        save_path="reward_curve.png"
     ):
 
 
@@ -87,16 +19,23 @@ class RewardPlotter:
         for exp in experiments:
 
 
-            if exp.history is None:
+            if exp.metrics is None:
                 continue
 
 
-            reward = exp.history
+            reward = exp.metrics.reward_history
+
+
+            if reward is None:
+                continue
 
 
             plt.plot(
                 reward,
-                label=exp.algorithm
+                label=(
+                    f"{exp.algorithm}-"
+                    f"{exp.environment}"
+                )
             )
 
 
@@ -110,18 +49,27 @@ class RewardPlotter:
         )
 
 
+        plt.title(
+            "DRL Reward Curve"
+        )
+
+
         plt.legend()
 
 
-        plt.grid()
+        plt.grid(
+            True
+        )
 
 
         plt.savefig(
-            self.save_dir /
-            "algorithm_compare.png",
+            save_path,
             dpi=300,
             bbox_inches="tight"
         )
 
 
         plt.close()
+
+
+        return save_path

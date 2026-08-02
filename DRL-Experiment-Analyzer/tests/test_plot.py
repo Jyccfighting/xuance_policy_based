@@ -21,6 +21,20 @@ plotter = RewardPlotter()
 
 for exp in experiments:
 
-    plotter.plot(
-        exp
-    )
+    plotter = RewardPlotter()
+
+
+    for exp in experiments:
+
+
+        print(
+            exp.algorithm,
+            exp.environment
+        )
+
+
+        plotter.plot_reward_curve(
+            exp.reward_history,
+            title=
+            f"{exp.algorithm}-{exp.environment}"
+        )
