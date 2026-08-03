@@ -32,6 +32,17 @@ class ComparisonPlotter:
         table = df.set_index(
             "algorithm"
         )[metrics]
+        
+        # normalize
+        table = (
+            table - table.min()
+        ) / (
+            table.max() - table.min() + 1e-8
+        )
+
+
+        # runtime 越小越好
+        table["runtime"] = 1 - table["runtime"]
 
         plt.figure(figsize=(8,5))
 
@@ -106,14 +117,16 @@ class ComparisonPlotter:
         )
 
         efficiency = (
-            df.sample_efficiency -
-            df.sample_efficiency.min()
+            df.sample_efficiency.max()
+            -
+            df.sample_efficiency
         ) / (
-            df.sample_efficiency.max() -
-            df.sample_efficiency.min() +
+            df.sample_efficiency.max()
+            -
+            df.sample_efficiency.min()
+            +
             1e-6
         )
-
         score = (
 
             0.4 * reward +
@@ -125,6 +138,25 @@ class ComparisonPlotter:
             0.2 * efficiency
 
         )
+        
+        result = pd.DataFrame({
+
+            "algorithm":
+            df.algorithm,
+
+            "score":
+            score
+
+        })
+
+
+        result = result.sort_values(
+            "score",
+            ascending=False
+        )
+
+
+        print(result)
 
         plt.figure(figsize=(8,5))
 
@@ -137,15 +169,15 @@ class ComparisonPlotter:
         "Overall Score"
     )
 
-    plt.tight_layout()
+        plt.tight_layout()
 
-    Path(save_dir).mkdir(
-        exist_ok=True
-    )
+        Path(save_dir).mkdir(
+            exist_ok=True
+        )
 
-    plt.savefig(
-        Path(save_dir) /
-        f"{env_name}_score.png"
-    )
+        plt.savefig(
+            Path(save_dir) /
+            f"{env_name}_score.png"
+        )
 
-    plt.close()
+        plt.close()

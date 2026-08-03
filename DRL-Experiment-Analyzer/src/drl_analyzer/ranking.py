@@ -6,35 +6,41 @@ class Ranking:
 
     def rank(
         self,
-        csv_file
+        csv_file,
+        env_name
     ):
 
 
         df = pd.read_csv(csv_file)
 
 
-        result={}
+        df=df[
+            df.environment==env_name
+        ]
 
 
-        for env in df.environment.unique():
+        metrics=[
+            "final_reward",
+            "stability",
+            "sample_efficiency"
+        ]
 
-            data=df[
-                df.environment==env
-            ]
 
-
-            data=data.sort_values(
-                "final_reward",
+        df["rank_score"]=(
+            df.final_reward.rank(
                 ascending=False
             )
+            +
+            df.stability.rank(
+                ascending=False
+            )
+            +
+            df.sample_efficiency.rank(
+                ascending=False
+            )
+        )
 
 
-            result[env]=data[
-                [
-                    "algorithm",
-                    "final_reward"
-                ]
-            ]
-
-
-        return result
+        return df.sort_values(
+            "rank_score"
+        )

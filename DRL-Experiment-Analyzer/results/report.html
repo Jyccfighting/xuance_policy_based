@@ -1,0 +1,503 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+DRL Benchmark Report
+</title>
+
+
+<style>
+
+
+body{
+
+font-family:
+Arial;
+
+margin:
+40px;
+
+}
+
+
+table{
+
+border-collapse:
+collapse;
+
+width:
+100%;
+
+}
+
+
+th,td{
+
+border:
+1px solid #ddd;
+
+padding:
+8px;
+
+}
+
+
+th{
+
+background:
+#f2f2f2;
+
+}
+
+
+img{
+
+width:
+800px;
+
+margin:
+20px;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<h1>
+Deep Reinforcement Learning Benchmark Report
+</h1>
+
+
+<h2>
+1. Experiment Summary
+</h2>
+
+
+<p>
+Total Experiments:
+18
+</p>
+
+
+
+<h2>
+2. Algorithm Ranking
+</h2>
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>algorithm</th>
+      <th>environment</th>
+      <th>final_reward</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PPG</td>
+      <td>CartPole-v1</td>
+      <td>500.000000</td>
+    </tr>
+    <tr>
+      <td>SAC</td>
+      <td>CartPole-v1</td>
+      <td>53.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>CartPole-v1</td>
+      <td>9.538462</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>CartPole-v1</td>
+      <td>9.538462</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>MountainCar-v0</td>
+      <td>-200.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>MountainCar-v0</td>
+      <td>-200.000000</td>
+    </tr>
+    <tr>
+      <td>TD3</td>
+      <td>Pendulum-v1</td>
+      <td>-236.782739</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Pendulum-v1</td>
+      <td>-245.918067</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Pendulum-v1</td>
+      <td>-318.083397</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>SAC</td>
+      <td>Pendulum-v1</td>
+      <td>-1268.586461</td>
+    </tr>
+    <tr>
+      <td>DDPG</td>
+      <td>Pendulum-v1</td>
+      <td>-1397.447695</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Pendulum-v1</td>
+      <td>-1447.417284</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>-1523.502742</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>CartPole-v1</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2>
+3. Benchmark Results
+</h2>
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>algorithm</th>
+      <th>environment</th>
+      <th>seed</th>
+      <th>final_reward</th>
+      <th>best_reward</th>
+      <th>mean_reward</th>
+      <th>std_reward</th>
+      <th>runtime</th>
+      <th>episodes</th>
+      <th>stability</th>
+      <th>sample_efficiency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A2C</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>425.801028</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>CartPole-v1</td>
+      <td>10</td>
+      <td>9.538462</td>
+      <td>9.538462</td>
+      <td>9.538462</td>
+      <td>NaN</td>
+      <td>198.914736</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>CartPole-v1</td>
+      <td>10</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-1447.417284</td>
+      <td>-1162.450954</td>
+      <td>-1364.786027</td>
+      <td>189.158675</td>
+      <td>158.224908</td>
+      <td>8</td>
+      <td>87.827194</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>DDPG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-1397.447695</td>
+      <td>-1296.852765</td>
+      <td>-1455.070398</td>
+      <td>122.195883</td>
+      <td>769.240927</td>
+      <td>10</td>
+      <td>92.252679</td>
+      <td>0.125000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>276.841542</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>CartPole-v1</td>
+      <td>10</td>
+      <td>9.538462</td>
+      <td>9.538462</td>
+      <td>9.538462</td>
+      <td>NaN</td>
+      <td>181.815547</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-1523.502742</td>
+      <td>-1162.450954</td>
+      <td>-1515.740623</td>
+      <td>150.132919</td>
+      <td>147.915956</td>
+      <td>9</td>
+      <td>90.987736</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>403.962350</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>CartPole-v1</td>
+      <td>10</td>
+      <td>500.000000</td>
+      <td>500.000000</td>
+      <td>336.512821</td>
+      <td>283.168101</td>
+      <td>335.673045</td>
+      <td>3</td>
+      <td>54.304209</td>
+      <td>0.003195</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>MountainCar-v0</td>
+      <td>10</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>0.000000</td>
+      <td>264.394961</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-318.083397</td>
+      <td>-287.757494</td>
+      <td>-821.274578</td>
+      <td>397.041694</td>
+      <td>258.884358</td>
+      <td>11</td>
+      <td>67.410622</td>
+      <td>0.002793</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>330.288698</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>MountainCar-v0</td>
+      <td>10</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>0.000000</td>
+      <td>182.100162</td>
+      <td>11</td>
+      <td>100.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-245.918067</td>
+      <td>-219.457318</td>
+      <td>-539.695980</td>
+      <td>351.332137</td>
+      <td>199.179732</td>
+      <td>11</td>
+      <td>60.570028</td>
+      <td>0.004464</td>
+    </tr>
+    <tr>
+      <td>SAC</td>
+      <td>CartPole-v1</td>
+      <td>10</td>
+      <td>53.000000</td>
+      <td>500.000000</td>
+      <td>239.565217</td>
+      <td>236.090281</td>
+      <td>812.360139</td>
+      <td>23</td>
+      <td>50.365279</td>
+      <td>0.083333</td>
+    </tr>
+    <tr>
+      <td>SAC</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-1268.586461</td>
+      <td>-1155.393896</td>
+      <td>-1509.805948</td>
+      <td>248.306037</td>
+      <td>1084.584359</td>
+      <td>10</td>
+      <td>85.876552</td>
+      <td>0.125000</td>
+    </tr>
+    <tr>
+      <td>TD3</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>-236.782739</td>
+      <td>-4.740745</td>
+      <td>-462.504216</td>
+      <td>312.505827</td>
+      <td>801.036368</td>
+      <td>20</td>
+      <td>59.677190</td>
+      <td>0.071429</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2>
+4. Visualization
+</h2>
+
+
+
+
+<h3>
+Pendulum-v1_learning_curve
+</h3>
+
+
+<img src="
+results/figures/Pendulum-v1_learning_curve.png
+">
+
+
+
+
+<h3>
+Pendulum-v1_smooth_learning_curve
+</h3>
+
+
+<img src="
+results/figures/Pendulum-v1_smooth_learning_curve.png
+">
+
+
+
+
+</body>
+
+</html>
+

@@ -60,6 +60,7 @@ class Analyzer:
             history = self.history_loader.load(
                 experiment
             )
+            experiment.history=history
             experiment.history = (
                 self.metrics_calculator
                 .extract_reward(history)
