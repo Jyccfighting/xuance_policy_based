@@ -1,16 +1,19 @@
 
-
 <!DOCTYPE html>
 
 <html>
 
+
 <head>
 
+
 <meta charset="utf-8">
+
 
 <title>
 DRL Benchmark Report
 </title>
+
 
 
 <style>
@@ -19,12 +22,34 @@ DRL Benchmark Report
 body{
 
 font-family:
-Arial;
+Arial, sans-serif;
 
 margin:
 40px;
 
+background:
+#ffffff;
+
 }
+
+
+
+h1{
+
+color:
+#333333;
+
+}
+
+
+
+h2{
+
+margin-top:
+40px;
+
+}
+
 
 
 table{
@@ -38,23 +63,28 @@ width:
 }
 
 
+
 th,td{
 
 border:
-1px solid #ddd;
+1px solid #cccccc;
 
 padding:
 8px;
 
+text-align:center;
+
 }
+
 
 
 th{
 
 background:
-#f2f2f2;
+#eeeeee;
 
 }
+
 
 
 img{
@@ -65,10 +95,29 @@ width:
 margin:
 20px;
 
+border:
+1px solid #ddd;
+
+}
+
+
+
+.summary{
+
+background:
+#f7f7f7;
+
+padding:
+20px;
+
+border-radius:
+10px;
+
 }
 
 
 </style>
+
 
 
 </head>
@@ -84,15 +133,92 @@ Deep Reinforcement Learning Benchmark Report
 </h1>
 
 
+
 <h2>
 1. Experiment Summary
 </h2>
 
 
+
+<div class="summary">
+
+
 <p>
+
 Total Experiments:
+
+<b>
 18
+</b>
+
+
 </p>
+
+
+
+<p>
+
+Best Reward Algorithm:
+
+<b>
+PPG
+</b>
+
+
+<br>
+
+Reward:
+
+500.0
+
+
+</p>
+
+
+
+
+<p>
+
+Most Stable Algorithm:
+
+<b>
+A2C
+</b>
+
+
+<br>
+
+Stability:
+
+100.0
+
+
+</p>
+
+
+
+
+<p>
+
+Fastest Algorithm:
+
+<b>
+PG
+</b>
+
+
+<br>
+
+Runtime:
+
+147.916s
+
+
+</p>
+
+
+</div>
+
 
 
 
@@ -205,8 +331,10 @@ Total Experiments:
 
 
 
+
+
 <h2>
-3. Benchmark Results
+3. Complete Benchmark Results
 </h2>
 
 
@@ -466,33 +594,20 @@ Total Experiments:
 
 
 
+
 <h2>
-4. Visualization
+4. Visualization Results
 </h2>
 
 
 
 
 <h3>
-Pendulum-v1_learning_curve
+runtime
 </h3>
 
 
-<img src="
-results/figures/Pendulum-v1_learning_curve.png
-">
-
-
-
-
-<h3>
-Pendulum-v1_smooth_learning_curve
-</h3>
-
-
-<img src="
-results/figures/Pendulum-v1_smooth_learning_curve.png
-">
+<img src="../D:/document/coding/policy/DRL-Experiment-Analyzer/results/runtime.png">
 
 
 

@@ -1,21 +1,21 @@
 from drl_analyzer.report import ReportGenerator
 
 
-
 generator = ReportGenerator()
 
 
 file = generator.generate(
 
-    "results/benchmark.csv",
+    csv_file=
+    "D:/document/coding/policy/DRL-Experiment-Analyzer/results/benchmark.csv",
 
-    "results/figures",
+    figure_dir=
+    "D:/document/coding/policy/DRL-Experiment-Analyzer/results",
 
-    "results/report.html"
+    output=
+    "D:/document/coding/policy/DRL-Experiment-Analyzer/results/report.html"
 
 )
 
 
-print(
-    file
-)
+print(file)
