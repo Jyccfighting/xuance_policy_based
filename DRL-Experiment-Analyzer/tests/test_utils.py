@@ -1,29 +1,21 @@
+"""utils.py 单元测试。"""
+
 from pathlib import Path
 
-from drl_analyzer.utils import (
-    ensure_dir,
-    format_seconds,
-    moving_average,
-)
+from drl_analyzer.utils import ensure_dir, format_seconds, moving_average
 
 
-def main():
-
-    ensure_dir(Path("output"))
-
-    print("Directory OK")
-
-    print(format_seconds(3661))
-
-    reward = [1,2,3,4,5,6]
-
-    ma = moving_average(
-        reward,
-        window=3
-    )
-
-    print(ma)
+def test_ensure_dir(tmp_path):
+    target = tmp_path / "a" / "b"
+    assert ensure_dir(target) == target
+    assert target.exists()
 
 
-if __name__ == "__main__":
-    main()
+def test_format_seconds():
+    assert format_seconds(3661) == "01:01:01"
+
+
+def test_moving_average_short_input():
+    """窗口大于长度时原样返回。"""
+    result = moving_average([1, 2, 3], window=10)
+    assert len(result) == 3

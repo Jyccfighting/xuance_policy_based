@@ -1,0 +1,10 @@
+# drl-analyzer 示例配置
+log_root: logs
+output_dir: results
+wandb:
+  enabled: true
+  entity: your_wandb_username
+  project: your_wandb_project
+  timeout: 30
+  retries: 2
+  cache_history: true

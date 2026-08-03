@@ -4,29 +4,29 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Virtual Environment
+# 虚拟环境
 .venv/
 venv/
 env/
 
-# VSCode
+# 编辑器
 .vscode/
-
-# PyCharm
 .idea/
 
-# Logs
+# 日志与缓存
 logs/
 *.log
+logs/.cache/
+.pytest_cache/
 
-# Output
+# 输出（保留结果目录结构，生成物按需入库）
 output/
 
-# Build
+# 构建
 dist/
 build/
 *.egg-info/
 
-# OS
+# 系统
 .DS_Store
 Thumbs.db

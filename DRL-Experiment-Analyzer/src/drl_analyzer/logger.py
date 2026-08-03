@@ -1,18 +1,10 @@
 """
 logger.py
-~~~~~~~~~
 
-统一日志管理模块。
-
-功能：
+统一日志管理：
 1. 创建控制台 Logger
-2. 创建文件 Logger
-3. 自动创建日志目录
-4. 防止重复添加 Handler
-5. 所有模块统一调用
-
-Author: yyJ
-Version: 1.0
+2. 可选创建文件 Logger（自动建目录）
+3. 防止重复添加 Handler
 """
 
 from __future__ import annotations
@@ -21,22 +13,11 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-# =============================================================================
-# Constants
-# =============================================================================
-
+# 默认日志级别与格式
 DEFAULT_LOG_LEVEL = logging.INFO
-
-DEFAULT_LOG_FORMAT = (
-    "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
-)
-
+DEFAULT_LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-
-# =============================================================================
-# Logger Factory
-# =============================================================================
 
 def get_logger(
     name: str,
@@ -44,25 +25,21 @@ def get_logger(
     level: int = DEFAULT_LOG_LEVEL,
 ) -> logging.Logger:
     """
-    Create or retrieve a configured logger.
+    创建或获取一个配置好的 logger。
 
-    Parameters
-    ----------
+    参数
+    ----
     name : str
-        Logger name.
+        logger 名称。
     log_dir : Path | None
-        Directory used to save log files.
+        日志目录；传了才会写 analyzer.log 文件。
     level : int
-        Logging level.
-
-    Returns
-    -------
-    logging.Logger
+        日志级别。
     """
 
     logger = logging.getLogger(name)
 
-    # 已经初始化过，直接返回
+    # 已初始化过，直接返回，避免重复 handler
     if logger.handlers:
         return logger
 
@@ -74,47 +51,25 @@ def get_logger(
         datefmt=DEFAULT_DATE_FORMAT,
     )
 
-    # -------------------------------------------------------------------------
-    # Console Handler
-    # -------------------------------------------------------------------------
-
+    # 控制台 handler
     console_handler = logging.StreamHandler()
-
     console_handler.setLevel(level)
-
     console_handler.setFormatter(formatter)
-
     logger.addHandler(console_handler)
 
-    # -------------------------------------------------------------------------
-    # File Handler
-    # -------------------------------------------------------------------------
-
+    # 文件 handler（可选）
     if log_dir is not None:
-
-        log_dir.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
-
-        log_file = log_dir / "analyzer.log"
-
+        log_dir.mkdir(parents=True, exist_ok=True)
         file_handler = logging.FileHandler(
-            log_file,
+            log_dir / "analyzer.log",
             encoding="utf-8",
         )
-
         file_handler.setLevel(level)
-
         file_handler.setFormatter(formatter)
-
         logger.addHandler(file_handler)
 
     return logger
 
 
-# =============================================================================
-# Root Logger
-# =============================================================================
-
+# 模块级默认 logger
 logger = get_logger("DRLAnalyzer")

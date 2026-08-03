@@ -1,728 +1,150 @@
-# """
-# scanner.py
-
-# 扫描整个logs目录
-# """
-
-# from pathlib import Path
-# from typing import List
-
-# from models import Experiment
-
-
-# class ExperimentScanner:
-
-#     def __init__(self, logs_dir: Path):
-
-#         self.logs_dir = Path(logs_dir)
-
-#     def scan(self) -> List[Experiment]:
-
-#         experiments = []
-
-#         if not self.logs_dir.exists():
-
-#             raise FileNotFoundError(
-#                 f"{self.logs_dir} 不存在"
-#             )
-
-#         # algorithm
-#         for algorithm_dir in sorted(self.logs_dir.iterdir()):
-
-#             if not algorithm_dir.is_dir():
-#                 continue
-
-#             algorithm = algorithm_dir.name
-
-#             # environment
-#             for env_dir in sorted(algorithm_dir.iterdir()):
-
-#                 if not env_dir.is_dir():
-#                     continue
-
-#                 environment = env_dir.name
-
-#                 wandb_dir = env_dir / "wandb"
-
-#                 if not wandb_dir.exists():
-#                     continue
-
-#                 # run
-#                 for run_dir in sorted(wandb_dir.iterdir()):
-
-#                     if not run_dir.is_dir():
-#                         continue
-
-#                     if not run_dir.name.startswith("run-"):
-#                         continue
-
-#                     files_dir = run_dir / "files"
-
-#                     config_path = files_dir / "config.yaml"
-
-#                     summary_path = (
-#                         files_dir /
-#                         "wandb-summary.json"
-#                     )
-
-#                     wandb_files = list(
-#                         run_dir.glob("*.wandb")
-#                     )
-
-#                     wandb_file = (
-#                         wandb_files[0]
-#                         if wandb_files
-#                         else Path()
-#                     )
-
-#                     experiment = Experiment(
-
-#                         algorithm=algorithm,
-
-#                         environment=environment,
-
-#                         run_name=run_dir.name,
-
-#                         run_path=run_dir,
-
-#                         config_path=config_path,
-
-#                         summary_path=summary_path,
-
-#                         wandb_file=wandb_file
-
-#                     )
-
-#                     experiments.append(experiment)
-
-#         return experiments
-
-
-# """
-# scanner.py
-
-# Scan all experiment logs and build Experiment objects.
-
-# Author : yyJ
-# Version : 1.0
-# """
-
-# from __future__ import annotations
-
-# import logging
-# from pathlib import Path
-# from typing import List
-
-# from config import (
-#     CONFIG_FILE,
-#     HISTORY_FILE,
-#     LOG_DIR,
-#     SUMMARY_FILE,
-# )
-
-# from models import Experiment
-
-# logger = logging.getLogger(__name__)
-
-
-# class ExperimentScanner:
-#     """
-#     Scan experiment directories.
-#     """
-
-#     def __init__(self, log_dir: Path = LOG_DIR):
-
-#         self.log_dir = Path(log_dir)
-
-#     # --------------------------------------------------
-
-#     def scan(self) -> List[Experiment]:
-
-#         experiments = []
-
-#         if not self.log_dir.exists():
-
-#             logger.warning(
-#                 "Log directory does not exist:\n%s",
-#                 self.log_dir
-#             )
-
-#             return experiments
-
-#         logger.info(
-#             "Scanning %s ...",
-#             self.log_dir
-#         )
-
-#         for algorithm_dir in sorted(self.log_dir.iterdir()):
-
-#             if not algorithm_dir.is_dir():
-
-#                 continue
-
-#             experiments.extend(
-
-#                 self.scan_algorithm(
-#                     algorithm_dir
-#                 )
-
-#             )
-
-#         logger.info(
-#             "Found %d experiments.",
-#             len(experiments)
-#         )
-
-#         return experiments
-
-#     # --------------------------------------------------
-
-#     def scan_algorithm(
-#         self,
-#         algorithm_dir: Path
-#     ) -> List[Experiment]:
-
-#         experiments = []
-
-#         for env_dir in sorted(algorithm_dir.iterdir()):
-
-#             if not env_dir.is_dir():
-
-#                 continue
-
-#             experiments.extend(
-
-#                 self.scan_environment(
-#                     algorithm_dir.name,
-#                     env_dir
-#                 )
-
-#             )
-
-#         return experiments
-
-#     # --------------------------------------------------
-
-#     def scan_environment(
-#         self,
-#         algorithm: str,
-#         env_dir: Path
-#     ) -> List[Experiment]:
-
-#         experiments = []
-
-#         wandb_dir = env_dir / "wandb"
-
-#         if not wandb_dir.exists():
-
-#             return experiments
-
-#         for run_dir in sorted(wandb_dir.glob("run-*")):
-
-#             exp = self.scan_run(
-#                 algorithm,
-#                 env_dir.name,
-#                 run_dir
-#             )
-
-#             if exp is not None:
-
-#                 experiments.append(exp)
-
-#         return experiments
-    
-
-#     # --------------------------------------------------
-#     # Scan One Run
-#     # --------------------------------------------------
-
-#     def scan_run(
-#         self,
-#         algorithm: str,
-#         environment: str,
-#         run_dir: Path
-#     ) -> Experiment | None:
-#         """
-#         Scan one WandB run directory.
-
-#         Example
-#         -------
-#         run-20260729_152317-bmpn9afc
-#         """
-
-#         logger.info(
-#             "Scanning run: %s",
-#             run_dir.name
-#         )
-
-#         files_dir = run_dir / "files"
-
-#         if not files_dir.exists():
-
-#             logger.warning(
-#                 "Missing files directory: %s",
-#                 run_dir
-#             )
-
-#             return None
-
-#         experiment = Experiment(
-#             root_dir=run_dir
-#         )
-
-#         experiment.algorithm = algorithm
-
-#         experiment.environment = environment
-
-#         experiment.run_name = run_dir.name
-
-#         experiment.config_path = self.find_config(
-#             files_dir
-#         )
-
-#         experiment.summary_path = self.find_summary(
-#             files_dir
-#         )
-
-#         experiment.history_csv_path = self.find_history(
-#             files_dir
-#         )
-
-#         self.validate(
-#             experiment
-#         )
-
-#         return experiment
-    
-
-#     # --------------------------------------------------
-
-#     def find_config(
-#         self,
-#         files_dir: Path
-#     ) -> Path | None:
-
-#         path = files_dir / CONFIG_FILE
-
-#         if path.exists():
-
-#             return path
-
-#         logger.warning(
-#             "config.yaml not found:\n%s",
-#             files_dir
-#         )
-
-#         return None
-    
-
-#     # --------------------------------------------------
-
-#     def find_summary(
-#         self,
-#         files_dir: Path
-#     ) -> Path | None:
-
-#         path = files_dir / SUMMARY_FILE
-
-#         if path.exists():
-
-#             return path
-
-#         logger.warning(
-#             "wandb-summary.json not found:\n%s",
-#             files_dir
-#         )
-
-#         return None
-    
-    
-#     # --------------------------------------------------
-
-#     def find_history(
-#         self,
-#         files_dir: Path
-#     ) -> Path | None:
-
-#         path = files_dir / HISTORY_FILE
-
-#         if path.exists():
-
-#             return path
-
-#         logger.warning(
-#             "history.csv not found:\n%s",
-#             files_dir
-#         )
-
-#         return None
-    
-    
-#     # --------------------------------------------------
-
-#     def validate(
-#         self,
-#         experiment: Experiment
-#     ) -> None:
-
-#         logger.info(
-#             "Validate experiment: %s",
-#             experiment.run_name
-#         )
-
-#         if experiment.config_path is None:
-
-#             logger.warning(
-#                 "Missing config."
-#             )
-
-#         if experiment.summary_path is None:
-
-#             logger.warning(
-#                 "Missing summary."
-#             )
-
-#         if experiment.history_csv_path is None:
-
-#             logger.warning(
-#                 "Missing history csv."
-#             )
-            
-            
-#     # --------------------------------------------------
-
-#     @staticmethod
-#     def print_experiment(
-#         experiment: Experiment
-#     ):
-
-#         print("=" * 60)
-
-#         print(
-#             f"Algorithm : {experiment.algorithm}"
-#         )
-
-#         print(
-#             f"Environment : {experiment.environment}"
-#         )
-
-#         print(
-#             f"Run : {experiment.run_name}"
-#         )
-
-#         print(
-#             f"Config : {experiment.config_path}"
-#         )
-
-#         print(
-#             f"Summary : {experiment.summary_path}"
-#         )
-
-#         print(
-#             f"History : {experiment.history_csv_path}"
-#         )
-
-#         print("=" * 60)
-
-
-
 """
 scanner.py
 
-Scan DRL experiment directories.
+扫描 DRL 实验目录，识别 WandB run 并构造 Experiment 对象。
 
-Support:
-- Xuance log structure
-- WandB run folders
+支持目录结构：
+logs/
+    algorithm/
+        environment/
+            wandb/
+                run-xxx/
+                    files/config.yaml
+                    run-xxx.wandb
 """
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import List
 
-from drl_analyzer.models import Experiment
 from drl_analyzer.config import ExperimentConfig
 from drl_analyzer.config_cleaner import ConfigCleaner
-from drl_analyzer.utils import (
-    find_file,
-    load_json,
-    load_yaml,
-)
+from drl_analyzer.models import Experiment
+from drl_analyzer.utils import find_file, load_json, load_yaml
+
+logger = logging.getLogger(__name__)
 
 
 class Scanner:
-    """
-    Scan experiment folders and create Experiment objects.
-    """
+    """扫描实验日志根目录，把每个 run 目录变成 Experiment 对象。"""
 
-
-    def __init__(
-        self,
-        root_dir: Path
-    ):
-        """
-        Parameters
-        ----------
-        root_dir:
-            Root directory of experiments.
-
-        Example
-        -------
-        logs/
-            a2c/
-            dqn/
-            c51/
-        """
-
+    def __init__(self, root_dir: Path):
+        """root_dir 为日志根目录（如 logs/）。"""
         self.root_dir = Path(root_dir)
 
-
-
-    # ======================================================
-    # Public API
-    # ======================================================
+    # ---------------- 公共接口 ----------------
 
     def scan(self) -> List[Experiment]:
-        """
-        Scan all experiments.
-
-        Returns
-        -------
-        List[Experiment]
-        """
-
+        """扫描全部实验，单个 run 失败不影响整批。"""
         experiments = []
-
-
         if not self.root_dir.exists():
+            logger.warning("日志根目录不存在: %s", self.root_dir)
             return experiments
 
-
         for run_dir in self._find_run_dirs():
+            try:
+                experiment = self._parse_run(run_dir)
+                if experiment is not None:
+                    experiments.append(experiment)
+            except Exception as exc:
+                logger.warning("解析 run 失败 %s: %s", run_dir, exc)
 
-            experiment = self._parse_run(run_dir)
-
-            if experiment is not None:
-
-                if experiment.path.exists():
-
-                    experiments.append(
-                        experiment
-                    )
-
-
+        logger.info("扫描到 %d 个实验", len(experiments))
         return experiments
 
-
-
-    # ======================================================
-    # Find run directories
-    # ======================================================
+    # ---------------- 查找 run ----------------
 
     def _find_run_dirs(self):
         """
-        Find wandb experiment folders.
+        查找所有 wandb run 目录。
 
-        Detect by content instead of name.
+        只遍历名为 wandb 的目录（比 rglob 全树快），
+        兼容 algorithm/env/wandb/run-* 和任意深度嵌套。
         """
+        for wandb_dir in self.root_dir.rglob("wandb"):
+            if not wandb_dir.is_dir():
+                continue
+            for run_dir in sorted(wandb_dir.glob("run-*")):
+                if run_dir.is_dir():
+                    yield run_dir
 
-        for path in self.root_dir.rglob("*"):
+    # ---------------- 解析单个 run ----------------
 
-                if self._is_wandb_run(path):
+    def _parse_run(self, run_dir: Path) -> Experiment | None:
+        """解析一个 run 目录：读取配置、填充数据源路径、构造 Experiment。"""
+        # 路径推断的算法/环境（config 优先）
+        algorithm, environment = self._infer_from_path(run_dir)
 
-                    yield path
+        # 读取配置（yaml 优先，summary 兜底）
+        config = self._load_config(run_dir)
+        exp_config = ExperimentConfig.from_dict(config) if config else ExperimentConfig()
+        algorithm = exp_config.algorithm or algorithm
+        environment = exp_config.environment or environment
 
+        # 清洗后的参数
+        clean_config = ConfigCleaner.clean(exp_config.parameters)
 
-    # ======================================================
-    # Parse one experiment
-    # ======================================================
-
-    def _parse_run(
-        self,
-        run_dir: Path
-    ) -> Experiment | None:
-        """
-        Parse one run folder.
-        """
-
-
-        algorithm = None
-
-        environment = None
-
-
-        # ---------------------------------
-        # Path information
-        # ---------------------------------
-
-        parts = run_dir.parts
-
-
-        try:
-
-            index = parts.index(
-                "logs"
-            )
-
-            algorithm = parts[index+1]
-
-            environment = parts[index+2]
-
-
-        except Exception:
-
-            pass
-
-
-
-        # ---------------------------------
-        # Load config
-        # ---------------------------------
-
-        config = self._load_config(
-            run_dir
-        )
-
-
-        if config:
-
-            exp_config = (
-                ExperimentConfig
-                .from_dict(config)
-            )
-
-
-            algorithm = (
-                exp_config.algorithm
-                or algorithm
-            )
-
-
-            environment = (
-                exp_config.environment
-                or environment
-            )
-
-        else:
-
-            exp_config = ExperimentConfig()
-
-
-
-        # ---------------------------------
-        # Create Experiment
-        # ---------------------------------
-        
-        clean_config = ConfigCleaner.clean(
-            exp_config.parameters
-        )
+        # 本地数据源
+        files_dir = run_dir / "files"
+        history_csv = files_dir / "history.csv"
+        wandb_files = list(run_dir.glob("*.wandb"))
+        summary_path = find_file(run_dir, "wandb-summary.json")
 
         experiment = Experiment(
-
             algorithm=algorithm,
-
             environment=environment,
-
             seed=exp_config.seed,
-
             path=run_dir,
-
+            run_name=run_dir.name,
+            project_name=clean_config.get("project_name") or clean_config.get("wandb_project"),
+            config_path=find_file(run_dir, "config.yaml") or find_file(run_dir, "config.yml"),
+            summary_path=summary_path,
+            history_csv_path=history_csv if history_csv.exists() else None,
+            wandb_file=wandb_files[0] if wandb_files else None,
             config=clean_config,
-
-            project_name=clean_config.get(
-                "project_name"
-            )
-
         )
+
+        # 加载 summary（供指标回退 / 调试）
+        if summary_path is not None:
+            try:
+                experiment.summary = load_json(summary_path)
+            except Exception as exc:
+                logger.warning("读取 summary 失败 %s: %s", summary_path, exc)
 
         return experiment
 
+    @staticmethod
+    def _infer_from_path(run_dir: Path):
+        """从路径 logs/<algorithm>/<environment>/wandb/run-* 推断元信息。"""
+        parts = run_dir.parts
+        try:
+            index = parts.index("logs")
+            return parts[index + 1], parts[index + 2]
+        except (ValueError, IndexError):
+            return None, None
 
-    def _is_wandb_run(
-        self,
-        path: Path
-    ):
+    @staticmethod
+    def _load_config(run_dir: Path):
         """
-        Check whether directory is a wandb run.
+        读取配置，优先级：
+        1. config.yaml / config.yml
+        2. wandb-summary.json
         """
-
-        if not path.is_dir():
-            return False
-
-
-        # wandb creates *.wandb file
-
-        wandb_files = list(
-            path.glob("*.wandb")
-        )
-
-
-        # wandb files directory
-
-        files_dir = (
-            path / "files"
-        )
-
-
-        return (
-            len(wandb_files) > 0
-            or files_dir.exists()
-        )
-
-
-    # ======================================================
-    # Load config
-    # ======================================================
-
-    def _load_config(
-        self,
-        run_dir: Path
-    ):
-        """
-        Load configuration file.
-
-        Priority:
-
-        1. config.yaml
-        2. config.yml
-        3. wandb-summary.json
-        """
-
-
-        # yaml
-
-        for name in [
-            "config.yaml",
-            "config.yml"
-        ]:
-
-            file = find_file(
-                run_dir,
-                name
-            )
-
-
+        for name in ("config.yaml", "config.yml"):
+            file = find_file(run_dir, name)
             if file:
+                try:
+                    return load_yaml(file)
+                except Exception as exc:
+                    logger.warning("读取配置失败 %s: %s", file, exc)
 
-                return load_yaml(
-                    file
-                )
-
-
-        # wandb summary
-
-        summary = find_file(
-            run_dir,
-            "wandb-summary.json"
-        )
-
-
+        summary = find_file(run_dir, "wandb-summary.json")
         if summary:
-
-            return load_json(
-                summary
-            )
-
+            try:
+                return load_json(summary)
+            except Exception as exc:
+                logger.warning("读取 summary 配置失败 %s: %s", summary, exc)
 
         return {}

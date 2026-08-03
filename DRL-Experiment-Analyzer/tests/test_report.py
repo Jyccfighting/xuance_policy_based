@@ -1,21 +1,11 @@
+"""report.py 单元测试。"""
+
 from drl_analyzer.report import ReportGenerator
 
 
-generator = ReportGenerator()
-
-
-file = generator.generate(
-
-    csv_file=
-    "D:/document/coding/policy/DRL-Experiment-Analyzer/results/benchmark.csv",
-
-    figure_dir=
-    "D:/document/coding/policy/DRL-Experiment-Analyzer/results",
-
-    output=
-    "D:/document/coding/policy/DRL-Experiment-Analyzer/results/report.html"
-
-)
-
-
-print(file)
+def test_generate_html(sample_benchmark, tmp_path):
+    output = tmp_path / "report.html"
+    ReportGenerator().generate(sample_benchmark, figure_dir=tmp_path / "no-figures", output=output)
+    text = output.read_text(encoding="utf-8")
+    assert "DRL Benchmark Report" in text
+    assert "A2C" in text
