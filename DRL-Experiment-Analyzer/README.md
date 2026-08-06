@@ -2,40 +2,89 @@
 
 Deep Reinforcement Learning Experiment Analyzer：扫描 WandB 训练日志，加载过程历史，计算指标，导出 CSV/Excel/图表/HTML/Markdown 报告，并支持过程突变/失败事件分析。
 
+## 一键运行（推荐）
+
+打开项目根目录的 `run.py`，在 VS Code 中点击右上角 ▶ 即可运行全部功能；也可以在终端执行：
+
+```bash
+python run.py
+```
+
+跳过某一步：打开 `run.py` 中的 `run_all()`，把不需要的那一行注释掉即可，例如：
+
+```python
+# step_plots(config, benchmark_csv)   # 不生成图表
+# step_process(config, experiments, process_report)  # 不生成过程分析
+```
+
+常用命令：
+
+```bash
+# 默认路径 logs -> results
+python run.py
+
+# 指定路径并禁用 WandB 在线获取（只用本地数据）
+python run.py --log-root logs --output results --no-wandb
+
+# 额外生成过程分析报告
+python run.py --log-root logs --output results --process-report results/process.md
+
+# 加载 YAML 配置
+python run.py --config config.yaml
+```
+
+## 系统架构
+
+```text
+run.py / cli.py（总入口）
+        │
+        ▼
+logs/ ──► Scanner ──► Experiment[]
+                          │
+                          ▼
+             ┌──── HistoryLoader ────────────┐
+             │ 1) files/history.csv (缓存)    │
+             │ 2) run-*.wandb 本地解析        │
+             │ 3) WandB API（超时+重试+缓存） │
+             └──────────────┬────────────────┘
+                            ▼
+                  MetricsCalculator ──► Metrics
+                            │
+                            ▼
+                   BenchmarkExporter ──► benchmark.csv / report.xlsx
+                            │
+          ┌─────────────────┼──────────────────┐
+          ▼                 ▼                  ▼
+   SummaryGenerator  ReportGenerator    SummaryPlotter
+     summary.md        report.html        figures/*.png
+          │                 │                  │
+          └───── process_analyzer（过程分析）───┘
+                     突变/异常/失败事件/时间线
+```
+
+模块职责：
+
+| 模块 | 职责 |
+|---|---|
+| `scanner.py` | 扫描日志目录，识别 WandB run，构造 Experiment |
+| `history_loader.py` | 按 本地 CSV → 本地 .wandb → WandB API 加载过程历史 |
+| `metrics.py` | 从历史计算 reward/loss/收敛/稳定性等指标 |
+| `scoring.py` | 归一化与综合分，排行榜统一口径 |
+| `exporter.py` | 导出 benchmark.csv / report.xlsx |
+| `summary.py` / `report.py` | 生成 Markdown / HTML 报告 |
+| `visualization/summary_plot.py` | 生成全部汇总图表 |
+| `process_analyzer.py` | 过程突变、NaN、事件提取与失败定位 |
+| `run.py` | 一键运行总入口，步骤可注释跳过 |
+
 ## 安装
 
 ```bash
 pip install -e ".[dev]"
 ```
 
-## 快速开始
-
-```bash
-# 分析 logs 目录，输出到 results，禁用网络（只用本地数据）
-drl-analyzer --log-root logs --output results --no-wandb
-
-# 允许通过 WandB API 在线获取过程数据（本地无 history.csv 时自动拉取并缓存）
-drl-analyzer --log-root logs --output results
-
-# 额外生成过程分析报告
-drl-analyzer --log-root logs --output results --process-report results/process.md
-```
-
-也可以使用 Python API：
-
-```python
-from drl_analyzer.config import AnalyzerConfig
-from drl_analyzer.analyzer import Analyzer
-
-config = AnalyzerConfig(log_root="logs", output_dir="results")
-analyzer = Analyzer(config)
-experiments = analyzer.analyze()
-analyzer.export(experiments)
-```
+也可以不安装，直接使用 `run.py`（它会自动把 `src` 加入 `sys.path`）。
 
 ## 输入目录结构
-
-工具按以下结构查找实验（`wandb` 目录名匹配，深度不限）：
 
 ```text
 logs/
