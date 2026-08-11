@@ -1,0 +1,40 @@
+{
+  "os": "Windows-10-10.0.26200-SP0",
+  "python": "CPython 3.10.20",
+  "startedAt": "2026-08-07T08:16:46.111706Z",
+  "program": "d:\\document\\coding\\policy\\PPG\\PPG.py",
+  "codePath": "PPG\\PPG.py",
+  "codePathLocal": "PPG\\PPG.py",
+  "git": {
+    "remote": "https://github.com/Jyccfighting/xuance_policy_based.git",
+    "commit": "526d091179ed4bcc82ad8db1032550fa230f1e08"
+  },
+  "email": "2797824480@qq.com",
+  "root": "D:\\document\\coding\\policy\\logs\\ppg\\MountainCar-v0",
+  "host": "Jycc",
+  "executable": "D:\\Program Files\\anaconda3\\envs\\xuance_torch\\python.exe",
+  "cpu_count": 14,
+  "cpu_count_logical": 20,
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "2000381014016",
+      "used": "1435410731008"
+    }
+  },
+  "memory": {
+    "total": "16851132416"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "memoryTotal": "6442450944",
+      "cudaCores": 3840,
+      "architecture": "Ampere",
+      "uuid": "GPU-279c9533-d31e-f0a7-580f-e9dabad4cb0d"
+    }
+  ],
+  "cudaVersion": "13.2",
+  "writerId": "flgitede2jtztjfx51mupjq65039k72d"
+}

@@ -19,16 +19,16 @@ critic_hidden_size: [128,]
 activation: 'relu'
 
 seed: 1
-parallels: 10
-running_steps: 500000
-horizon_size: 256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
-n_epochs: 8
-n_minibatch: 8
-learning_rate: 0.0004
+parallels: 32  #10
+running_steps: 3000000  #1000000  #500000
+horizon_size: 500  #256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
+n_epochs: 1  #8
+n_minibatch: 1  #8
+learning_rate: 0.0003  #0.0004
 
-vf_coef: 0.25
-ent_coef: 0.01
-gamma: 0.98
+vf_coef: 0.5  #0.25
+ent_coef: 0.02  #0.1  #0.01
+gamma: 0.99  #0.98
 use_gae: True
 gae_lambda: 0.95
 use_advnorm: True
@@ -38,7 +38,7 @@ clip_type: 1  # Gradient clip for Mindspore: 0: ms.ops.clip_by_value; 1: ms.nn.C
 grad_clip_norm: 0.5
 use_actions_mask: False
 use_obsnorm: True
-use_rewnorm: True
+use_rewnorm: False  #True
 obsnorm_range: 5
 rewnorm_range: 5
 

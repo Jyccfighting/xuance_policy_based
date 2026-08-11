@@ -16,8 +16,8 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
 <h1>Deep Reinforcement Learning Benchmark Report</h1>
 <h2>Experiment Summary</h2>
 <div class="summary">
-<p>Total Experiments: <b>17</b></p>
-<p>Best Reward: <b>PPG</b> (CartPole-v1) - 500.000</p>
+<p>Total Experiments: <b>29</b></p>
+<p>Best Reward: <b>A2C</b> (CartPole-v1) - 500.000</p>
 <p>Fastest: <b>PG</b> - 147.92s</p>
 <p>Most Stable: <b>A2C</b> (100.00)</p>
 </div>
@@ -47,20 +47,20 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
     <tr>
       <th>PPG</th>
       <td>1</td>
-      <td>-129.520849</td>
-      <td>320.103160</td>
-      <td>85.724626</td>
-      <td>4.5</td>
-      <td>0.621700</td>
+      <td>-220.649232</td>
+      <td>481.390713</td>
+      <td>83.922298</td>
+      <td>4.00</td>
+      <td>0.712104</td>
     </tr>
     <tr>
-      <th>A2C</th>
+      <th>PPO</th>
       <td>2</td>
-      <td>-442.119812</td>
-      <td>270.321569</td>
-      <td>86.453529</td>
-      <td>2.0</td>
-      <td>0.571507</td>
+      <td>-326.230747</td>
+      <td>382.840343</td>
+      <td>86.610288</td>
+      <td>5.00</td>
+      <td>0.696098</td>
     </tr>
     <tr>
       <th>SAC</th>
@@ -68,44 +68,44 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>140.834871</td>
       <td>966.540264</td>
       <td>65.630518</td>
-      <td>3.5</td>
-      <td>0.545321</td>
+      <td>3.50</td>
+      <td>0.631293</td>
     </tr>
     <tr>
-      <th>PPO</th>
+      <th>A2C</th>
       <td>4</td>
-      <td>-315.306022</td>
-      <td>237.189531</td>
-      <td>86.856676</td>
-      <td>5.0</td>
-      <td>0.510900</td>
-    </tr>
-    <tr>
-      <th>PG</th>
-      <td>5</td>
-      <td>-507.834247</td>
-      <td>207.501677</td>
-      <td>86.835687</td>
-      <td>3.0</td>
-      <td>0.499872</td>
+      <td>-611.096434</td>
+      <td>333.404197</td>
+      <td>90.044928</td>
+      <td>8.00</td>
+      <td>0.559321</td>
     </tr>
     <tr>
       <th>DDPG</th>
-      <td>6</td>
+      <td>5</td>
       <td>-220.574154</td>
       <td>782.655490</td>
       <td>55.676007</td>
-      <td>1.0</td>
-      <td>0.435095</td>
+      <td>1.00</td>
+      <td>0.499065</td>
     </tr>
     <tr>
       <th>TD3</th>
-      <td>7</td>
+      <td>6</td>
       <td>-207.572453</td>
       <td>811.870280</td>
       <td>54.120202</td>
-      <td>5.0</td>
-      <td>0.225910</td>
+      <td>5.00</td>
+      <td>0.434748</td>
+    </tr>
+    <tr>
+      <th>PG</th>
+      <td>7</td>
+      <td>-721.285712</td>
+      <td>453.675280</td>
+      <td>90.040786</td>
+      <td>16.25</td>
+      <td>0.361985</td>
     </tr>
   </tbody>
 </table>
@@ -120,12 +120,12 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
   </thead>
   <tbody>
     <tr>
-      <td>PPG</td>
+      <td>A2C</td>
       <td>CartPole-v1</td>
       <td>500.000000</td>
     </tr>
     <tr>
-      <td>A2C</td>
+      <td>PPG</td>
       <td>CartPole-v1</td>
       <td>500.000000</td>
     </tr>
@@ -138,6 +138,16 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>PG</td>
       <td>CartPole-v1</td>
       <td>500.000000</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>MountainCar-v0</td>
+      <td>-200.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>MountainCar-v0</td>
+      <td>-200.000000</td>
     </tr>
     <tr>
       <td>PPO</td>
@@ -170,17 +180,22 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>-245.918067</td>
     </tr>
     <tr>
+      <td>PPO</td>
+      <td>Pendulum-v1</td>
+      <td>-311.466416</td>
+    </tr>
+    <tr>
       <td>PPG</td>
       <td>Pendulum-v1</td>
       <td>-318.083397</td>
     </tr>
     <tr>
       <td>PPG</td>
-      <td>Acrobot-v1</td>
-      <td>-500.000000</td>
+      <td>Pendulum-v1</td>
+      <td>-326.461226</td>
     </tr>
     <tr>
-      <td>PG</td>
+      <td>PPO</td>
       <td>Acrobot-v1</td>
       <td>-500.000000</td>
     </tr>
@@ -193,6 +208,51 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>A2C</td>
       <td>Acrobot-v1</td>
       <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Acrobot-v1</td>
+      <td>-500.000000</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Pendulum-v1</td>
+      <td>-1229.122734</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>-1262.748620</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>-1262.748620</td>
     </tr>
     <tr>
       <td>A2C</td>
@@ -243,6 +303,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
     </tr>
     <tr>
       <td>A2C</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>run-20260806_111231-qnts3ypd</td>
+      <td>ok</td>
+      <td>-500.000000</td>
+      <td>-485.100000</td>
+      <td>-498.214286</td>
+      <td>3.842302</td>
+      <td>547.305304</td>
+      <td>21</td>
+      <td>99.234687</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
       <td>CartPole-v1</td>
       <td>10</td>
       <td>run-20260729_170249-3szo1zw5</td>
@@ -270,6 +345,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>11</td>
       <td>89.177874</td>
       <td>NaN</td>
+    </tr>
+    <tr>
+      <td>A2C</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>run-20260806_152025-lrqwmvdy</td>
+      <td>ok</td>
+      <td>-1229.122734</td>
+      <td>-1109.937788</td>
+      <td>-1253.427681</td>
+      <td>114.504644</td>
+      <td>308.750975</td>
+      <td>21</td>
+      <td>91.629363</td>
+      <td>11.0</td>
     </tr>
     <tr>
       <td>DDPG</td>
@@ -303,6 +393,36 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
     </tr>
     <tr>
       <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>run-20260806_105946-8yc9946w</td>
+      <td>ok</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>518.785053</td>
+      <td>21</td>
+      <td>100.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Acrobot-v1</td>
+      <td>32</td>
+      <td>run-20260806_233023-z82ovimx</td>
+      <td>ok</td>
+      <td>-500.000000</td>
+      <td>-218.200000</td>
+      <td>-436.015524</td>
+      <td>89.978794</td>
+      <td>1458.985944</td>
+      <td>61</td>
+      <td>82.893581</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>PG</td>
       <td>CartPole-v1</td>
       <td>10</td>
       <td>run-20260729_170800-lrewprkz</td>
@@ -332,6 +452,36 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>NaN</td>
     </tr>
     <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>run-20260806_144308-s7lcd065</td>
+      <td>ok</td>
+      <td>-1262.748620</td>
+      <td>-1115.163023</td>
+      <td>-1226.620302</td>
+      <td>86.081335</td>
+      <td>287.681098</td>
+      <td>21</td>
+      <td>93.442430</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <td>PG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>run-20260806_151421-jwubf4go</td>
+      <td>ok</td>
+      <td>-1262.748620</td>
+      <td>-1115.163023</td>
+      <td>-1226.620302</td>
+      <td>86.081335</td>
+      <td>287.769835</td>
+      <td>21</td>
+      <td>93.442430</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
       <td>PPG</td>
       <td>Acrobot-v1</td>
       <td>10</td>
@@ -345,6 +495,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>11</td>
       <td>100.000000</td>
       <td>NaN</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>run-20260806_113207-u7kjh4ge</td>
+      <td>ok</td>
+      <td>-500.000000</td>
+      <td>-172.400000</td>
+      <td>-481.161905</td>
+      <td>72.281882</td>
+      <td>711.020071</td>
+      <td>21</td>
+      <td>86.939616</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <td>PPG</td>
@@ -378,6 +543,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
     </tr>
     <tr>
       <td>PPG</td>
+      <td>MountainCar-v0</td>
+      <td>10</td>
+      <td>run-20260806_160343-r2g5psh1</td>
+      <td>ok</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>0.000000</td>
+      <td>880.161533</td>
+      <td>41</td>
+      <td>100.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>PPG</td>
       <td>Pendulum-v1</td>
       <td>10</td>
       <td>run-20260729_142110-n1ypytca</td>
@@ -392,6 +572,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>8.0</td>
     </tr>
     <tr>
+      <td>PPG</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>run-20260806_153621-k6y8llea</td>
+      <td>ok</td>
+      <td>-326.461226</td>
+      <td>-205.922152</td>
+      <td>-436.901544</td>
+      <td>321.371553</td>
+      <td>498.140745</td>
+      <td>21</td>
+      <td>57.617967</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
       <td>PPO</td>
       <td>Acrobot-v1</td>
       <td>10</td>
@@ -403,6 +598,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>0.000000</td>
       <td>330.288698</td>
       <td>11</td>
+      <td>100.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Acrobot-v1</td>
+      <td>10</td>
+      <td>run-20260806_112218-zln9xopa</td>
+      <td>ok</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>-500.000000</td>
+      <td>0.000000</td>
+      <td>557.702306</td>
+      <td>21</td>
       <td>100.000000</td>
       <td>NaN</td>
     </tr>
@@ -423,6 +633,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
     </tr>
     <tr>
       <td>PPO</td>
+      <td>MountainCar-v0</td>
+      <td>10</td>
+      <td>run-20260806_155127-hzh7i4t3</td>
+      <td>ok</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>-200.000000</td>
+      <td>0.000000</td>
+      <td>599.882476</td>
+      <td>41</td>
+      <td>100.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
       <td>Pendulum-v1</td>
       <td>10</td>
       <td>run-20260729_141719-t7p5us0r</td>
@@ -434,6 +659,21 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
       <td>199.179732</td>
       <td>11</td>
       <td>60.570028</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <td>PPO</td>
+      <td>Pendulum-v1</td>
+      <td>10</td>
+      <td>run-20260806_152834-xy4luccb</td>
+      <td>ok</td>
+      <td>-311.466416</td>
+      <td>-197.913896</td>
+      <td>-347.049466</td>
+      <td>240.257125</td>
+      <td>427.888686</td>
+      <td>21</td>
+      <td>59.091703</td>
       <td>5.0</td>
     </tr>
     <tr>
@@ -484,11 +724,11 @@ img { width: 900px; max-width: 100%; margin: 10px 0; border: 1px solid #ccc; }
   </tbody>
 </table>
 <h2>Figures</h2>
-<h3>average_reward</h3><img src="figures/average_reward.png"><h3>average_runtime</h3><img src="figures/average_runtime.png"><h3>average_sample_efficiency</h3><img src="figures/average_sample_efficiency.png"><h3>average_stability</h3><img src="figures/average_stability.png"><h3>overall_score</h3><img src="figures/overall_score.png"><h3>Pendulum-v1_learning_curve</h3><img src="figures/Pendulum-v1_learning_curve.png"><h3>Pendulum-v1_smooth_learning_curve</h3><img src="figures/Pendulum-v1_smooth_learning_curve.png"><h3>win_count</h3><img src="figures/win_count.png">
+<h3>average_reward</h3><img src="figures/average_reward.png"><h3>average_runtime</h3><img src="figures/average_runtime.png"><h3>average_sample_efficiency</h3><img src="figures/average_sample_efficiency.png"><h3>average_stability</h3><img src="figures/average_stability.png"><h3>final_reward</h3><img src="figures/final_reward.png"><h3>overall_score</h3><img src="figures/overall_score.png"><h3>Pendulum-v1_learning_curve</h3><img src="figures/Pendulum-v1_learning_curve.png"><h3>Pendulum-v1_smooth_learning_curve</h3><img src="figures/Pendulum-v1_smooth_learning_curve.png"><h3>win_count</h3><img src="figures/win_count.png">
 <h2>Conclusion</h2>
 <ul>
 <li>Best Overall Algorithm: <b>PPG</b></li>
-<li>Highest Reward: <b>PPG</b></li>
+<li>Highest Reward: <b>A2C</b></li>
 <li>Fastest Training: <b>PG</b></li>
 </ul>
 </body>

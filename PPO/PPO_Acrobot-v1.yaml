@@ -19,19 +19,19 @@ critic_hidden_size: [128,]
 activation: 'relu'
 
 seed: 1
-parallels: 10
-running_steps: 500000
-horizon_size: 256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
-n_epochs: 8
-n_minibatch: 8
-learning_rate: 0.0004
+parallels: 32  #10
+running_steps: 3000000  #1000000  #500000
+horizon_size: 500  #256  # the horizon size for an environment, buffer_size = horizon_size * parallels.
+n_epochs: 8  #4  #8
+n_minibatch: 8  #4  #8
+learning_rate: 0.0003  #0.0004
 
-vf_coef: 0.25
-ent_coef: 0.01
+vf_coef: 0.5  #0.25
+ent_coef: 0.02  #0.05  #0.01
 target_kl: 0.25  # for PPO_KL agent
 kl_coef: 1.0  # for PPO_KL agent
 clip_range: 0.2  # for PPO agent
-gamma: 0.98
+gamma: 0.99  #0.98
 use_gae: True
 gae_lambda: 0.95
 use_advnorm: True
@@ -41,7 +41,7 @@ clip_type: 1  # Gradient clip for Mindspore: 0: ms.ops.clip_by_value; 1: ms.nn.C
 grad_clip_norm: 0.5
 use_actions_mask: False
 use_obsnorm: True  # Whether to use observation normalization trick.
-use_rewnorm: True  # Whether to use reward normalization trick.
+use_rewnorm: False  #True  # Whether to use reward normalization trick.
 obsnorm_range: 5
 rewnorm_range: 5
 

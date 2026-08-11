@@ -1,0 +1,24 @@
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_setup.py:_flush():81] Current SDK version is 0.28.1
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_setup.py:_flush():81] Configure stats pid to 231336
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:setup_run_log_directory():729] Logging user logs to D:\document\coding\policy\logs\ppg\Acrobot-v1\wandb\run-20260807_152527-fwj0gkjc\logs\debug.log
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:setup_run_log_directory():730] Logging internal logs to D:\document\coding\policy\logs\ppg\Acrobot-v1\wandb\run-20260807_152527-fwj0gkjc\logs\debug-internal.log
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:init():772] calling init triggers
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:init():777] wandb.init called with sweep_config: {}
+config: {'dl_toolbox': 'torch', 'project_name': 'PPG_Acrobot-v1', 'logger': 'wandb', 'wandb_user_name': '2797824480', 'render': True, 'render_mode': 'rgb_array', 'fps': 50, 'device': 'cpu', 'distributed_training': False, 'master_port': '12355', 'agent': 'PPG', 'env_name': 'Classic Control', 'env_id': 'Acrobot-v1', 'env_seed': 32, 'vectorize': 'DummyVecEnv', 'policy': 'Categorical_PPG', 'representation': 'Basic_MLP', 'representation_hidden_size': [128], 'actor_hidden_size': [128], 'critic_hidden_size': [128], 'activation': 'relu', 'activation_action': 'tanh', 'seed': 1, 'parallels': 32, 'running_steps': 3000000, 'learning_rate': 0.0003, 'eval_interval': 50000, 'test_episode': 10, 'log_dir': './logs/ppg/Acrobot-v1', 'model_dir': './models/ppg/Acrobot-v1', 'learner': 'PPG_Learner', 'runner': 'DRL', 'horizon_size': 500, 'n_epochs': 1, 'policy_nepoch': 4, 'value_nepoch': 4, 'aux_nepoch': 4, 'n_minibatch': 1, 'ent_coef': 0.02, 'clip_range': 0.2, 'kl_beta': 1.0, 'gamma': 0.99, 'use_gae': True, 'gae_lambda': 0.95, 'use_advnorm': True, 'use_grad_clip': True, 'clip_type': 1, 'grad_clip_norm': 0.5, 'use_actions_mask': False, 'use_obsnorm': True, 'use_rewnorm': False, 'obsnorm_range': 5, 'rewnorm_range': 5, 'test_steps': 10000, 'agent_name': 'ppg', 'result_dir': 'results/ppg\\Acrobot-v1', 'observation_space': Box([ -1.        -1.        -1.        -1.       -12.566371 -28.274334], [ 1.        1.        1.        1.       12.566371 28.274334], (6,), float32), 'action_space': Discrete(3), 'episode_length': 500, '_wandb': {}}
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:init():820] starting backend
+2026-08-07 15:25:27,489 INFO    MainThread:231336 [wandb_init.py:init():835] sending inform_init request
+2026-08-07 15:25:27,612 INFO    MainThread:231336 [wandb_init.py:init():840] backend started and connected
+2026-08-07 15:25:27,614 INFO    MainThread:231336 [wandb_init.py:init():910] updated telemetry
+2026-08-07 15:25:27,704 INFO    MainThread:231336 [wandb_init.py:init():933] communicating run to backend with 90.0 second timeout
+2026-08-07 15:25:29,634 INFO    MainThread:231336 [wandb_init.py:init():978] starting run threads in backend
+2026-08-07 15:25:29,827 INFO    MainThread:231336 [wandb_run.py:_console_start():2621] atexit reg
+2026-08-07 15:25:29,827 INFO    MainThread:231336 [wandb_run.py:_redirect():2471] redirect: wrap_raw
+2026-08-07 15:25:29,827 INFO    MainThread:231336 [wandb_run.py:_redirect():2540] Wrapping output streams.
+2026-08-07 15:25:29,827 INFO    MainThread:231336 [wandb_run.py:_redirect():2563] Redirects installed.
+2026-08-07 15:25:29,831 INFO    MainThread:231336 [wandb_init.py:init():1016] run started, returning control to user process
+2026-08-07 15:58:21,331 INFO    MainThread:231336 [wandb_run.py:_finish():2383] finishing run 2797824480/PPG_Acrobot-v1/fwj0gkjc
+2026-08-07 15:58:21,332 INFO    MainThread:231336 [wandb_run.py:_atexit_cleanup():2588] got exitcode: 0
+2026-08-07 15:58:21,332 INFO    MainThread:231336 [wandb_run.py:_restore():2570] restore
+2026-08-07 15:58:21,333 INFO    MainThread:231336 [wandb_run.py:_restore():2576] restore done
+2026-08-07 15:58:24,008 INFO    MainThread:231336 [wandb_run.py:_footer_sync_info():3993] logging synced files

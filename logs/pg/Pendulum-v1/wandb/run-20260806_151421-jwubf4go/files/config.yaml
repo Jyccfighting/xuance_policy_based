@@ -1,0 +1,169 @@
+_wandb:
+    value:
+        cli_version: 0.28.1
+        e:
+            4rz7eih4yquetuewan1o5rc28xbvzoqp:
+                codePath: PG\PG.py
+                codePathLocal: PG\PG.py
+                cpu_count: 14
+                cpu_count_logical: 20
+                cudaVersion: "13.2"
+                disk:
+                    /:
+                        total: "2000381014016"
+                        used: "1434864828416"
+                email: 2797824480@qq.com
+                executable: D:\Program Files\anaconda3\envs\xuance_torch\python.exe
+                git:
+                    commit: 526d091179ed4bcc82ad8db1032550fa230f1e08
+                    remote: https://github.com/Jyccfighting/xuance_policy_based.git
+                gpu: NVIDIA GeForce RTX 3060 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 3840
+                      memoryTotal: "6442450944"
+                      name: NVIDIA GeForce RTX 3060 Laptop GPU
+                      uuid: GPU-279c9533-d31e-f0a7-580f-e9dabad4cb0d
+                host: Jycc
+                memory:
+                    total: "16851132416"
+                os: Windows-10-10.0.26200-SP0
+                program: d:\document\coding\policy\PG\PG.py
+                python: CPython 3.10.20
+                root: D:\document\coding\policy\logs\pg\Pendulum-v1
+                startedAt: "2026-08-06T07:14:21.659626Z"
+                writerId: 4rz7eih4yquetuewan1o5rc28xbvzoqp
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 41
+            "2":
+                - 1
+                - 41
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.10.20
+            "5": 0.28.1
+            "8":
+                - 3
+            "10":
+                - 20
+            "12": 0.28.1
+            "13": windows-amd64
+action_space:
+    value: Box(-2.0, 2.0, (1,), float32)
+activation:
+    value: relu
+activation_action:
+    value: tanh
+actor_hidden_size:
+    value:
+        - 256
+agent:
+    value: PG
+agent_name:
+    value: PG
+clip_type:
+    value: 1
+critic_hidden_size:
+    value:
+        - 256
+device:
+    value: cpu
+distributed_training:
+    value: false
+dl_toolbox:
+    value: torch
+ent_coef:
+    value: 0.1
+env_id:
+    value: Pendulum-v1
+env_name:
+    value: Classic Control
+env_seed:
+    value: 10
+episode_length:
+    value: 200
+eval_interval:
+    value: 50000
+fps:
+    value: 50
+gae_lambda:
+    value: 0.95
+gamma:
+    value: 0.98
+grad_clip_norm:
+    value: 0.5
+horizon_size:
+    value: 256
+learner:
+    value: PG_Learner
+learning_rate:
+    value: 0.0003
+log_dir:
+    value: ./logs/pg/Pendulum-v1
+logger:
+    value: wandb
+master_port:
+    value: "12355"
+model_dir:
+    value: ./models/pg/Pendulum-v1
+n_epochs:
+    value: 1
+n_minibatch:
+    value: 1
+observation_space:
+    value: Box([-1. -1. -8.], [1. 1. 8.], (3,), float32)
+obsnorm_range:
+    value: 5
+parallels:
+    value: 10
+policy:
+    value: Gaussian_Actor
+project_name:
+    value: PG_Pendulum-v1
+render:
+    value: true
+render_mode:
+    value: rgb_array
+representation:
+    value: Basic_MLP
+representation_hidden_size:
+    value:
+        - 256
+result_dir:
+    value: results/PG\Pendulum-v1
+rewnorm_range:
+    value: 5
+runner:
+    value: DRL
+running_steps:
+    value: 1000000
+seed:
+    value: 1
+test_episode:
+    value: 10
+test_steps:
+    value: 10000
+use_actions_mask:
+    value: false
+use_advnorm:
+    value: true
+use_gae:
+    value: true
+use_grad_clip:
+    value: true
+use_obsnorm:
+    value: true
+use_rewnorm:
+    value: true
+vectorize:
+    value: DummyVecEnv
+wandb_user_name:
+    value: "2797824480"
